@@ -65,12 +65,12 @@ class PublicBuildTests(unittest.TestCase):
 
     def test_public_identity_and_urls(self):
         sub = self.subscription
-        expected = {"id": 20261113, "name": "Nisconder的GKD订阅", "version": 7,
+        expected = {"id": 20261113, "name": "Nisconder的GKD订阅", "version": 8,
                     "author": "Nisconder", "updateUrl": "https://nisconder.pages.dev/gkd/subscription.json5",
                     "checkUpdateUrl": "https://nisconder.pages.dev/gkd/version.json5",
-                    "supportUri": "https://github.com/nisconder/gkd-subscription/issues"}
+                    "supportUri": "https://github.com/nisconder/Nisconder-GKD-Subscription/issues"}
         self.assertEqual({k: sub[k] for k in expected}, expected)
-        self.assertEqual(json.loads(self.artifacts["gkd.version.json5"]), {"id": 20261113, "version": 7})
+        self.assertEqual(json.loads(self.artifacts["gkd.version.json5"]), {"id": 20261113, "version": 8})
 
     def test_complete_app_behavior_preserved(self):
         apps = self.subscription["apps"]
