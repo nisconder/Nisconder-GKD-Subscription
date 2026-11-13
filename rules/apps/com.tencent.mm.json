@@ -1,0 +1,932 @@
+{
+  "id": "com.tencent.mm",
+  "name": "微信",
+  "groups": [
+    {
+      "key": 0,
+      "name": "分段广告-朋友圈广告",
+      "desc": "广告入口绑定已知控件和广告反馈面板；隐藏/空白入口仅适用已有快照验证的版本。取消无广告证据的返回和取消补救。",
+      "activityIds": [
+        ".plugin.sns.ui.SnsTimeLineUI",
+        ".plugin.sns.ui.improve.ImproveSnsTimelineUI",
+        ".plugin.profile.ui.ContactInfoUI"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "name": "①点击[广告]",
+          "fastQuery": true,
+          "matches": "@[id=\"com.tencent.mm:id/jw\" || id=\"com.tencent.mm:id/fj\"][clickable=true][visibleToUser=true][width>0 && height>0] > [text=\"广告\" || text=\"廣告\" || text=\"Sponsored\"][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "name": "①旧版本隐藏广告入口（已知广告控件坐标）",
+          "fastQuery": true,
+          "actionDelay": 0,
+          "position": {
+            "left": "width * 0.9223",
+            "top": "height * 0.5"
+          },
+          "versionCode": {
+            "include": [
+              2580,
+              2600,
+              2820
+            ]
+          },
+          "matches": "@[id=\"com.tencent.mm:id/kbe\"][childCount=2][visibleToUser=true][height>0 && height<200 && width>500] > [id=\"com.tencent.mm:id/jw\"][visibleToUser=false]"
+        },
+        {
+          "key": 2,
+          "name": "①旧版本空白广告入口（已知控件ID链）",
+          "versionCode": {
+            "include": [
+              2020,
+              2820
+            ]
+          },
+          "anyMatches": [
+            "[id=\"com.tencent.mm:id/fzb\"] > @[id=\"com.tencent.mm:id/fj\"][childCount=0][clickable=true][visibleToUser=true][width>0 && height>0]",
+            "[id=\"com.tencent.mm:id/kbe\"] > @[id=\"com.tencent.mm:id/jw\"][childCount=0][clickable=true][visibleToUser=true][width>0 && height>0]"
+          ]
+        },
+        {
+          "preKeys": [
+            0,
+            1,
+            2
+          ],
+          "key": 25,
+          "name": "②点击[关闭]",
+          "fastQuery": true,
+          "anyMatches": [
+            "[text*=\"广告\" || text*=\"廣告\" || text*=\" ad\"][visibleToUser=true] < [id=\"com.tencent.mm:id/n2o\" || id=\"com.tencent.mm:id/huk\"] > @[id=\"com.tencent.mm:id/n2m\"][text=\"关闭该广告\" || text=\"關閉此廣告\" || text=\"Close the ad\"][clickable=true][visibleToUser=true][width>0 && height>0]",
+            "[text=\"广告反馈\" || text=\"\\\"Ad feedback\\\"\"][visibleToUser=true] < LinearLayout < LinearLayout > FrameLayout > @[text=\"关闭广告\" || text=\"\\\"Close Ad\\\"\"][clickable=true][visibleToUser=true][width>0 && height>0]",
+            "[text=\"赞助商提供的广告信息\" || text=\"Sponsored story\"][visibleToUser=true] < [id=\"com.tencent.mm:id/n2o\" || id=\"com.tencent.mm:id/huk\"] >n @[id=\"com.tencent.mm:id/n2t\" || id=\"com.tencent.mm:id/hup\"][clickable=true][visibleToUser=true][width>0 && height>0]"
+          ]
+        },
+        {
+          "preKeys": [
+            25
+          ],
+          "key": 50,
+          "name": "③点击[关闭]",
+          "matches": "[text=\"关闭该广告的原因\" || text=\"Reason for closing the ad\" || text=\"不感兴趣原因\"][visibleToUser=true] < [id=\"com.tencent.mm:id/n2o\" || id=\"com.tencent.mm:id/huk\"] >n @[text=\"直接关闭\" || text=\"Close\" || text=\"关闭广告\"][clickable=true][visibleToUser=true][width>0 && height>0]"
+        },
+        {
+          "preKeys": [
+            50
+          ],
+          "key": 75,
+          "name": "④点击[确认]",
+          "fastQuery": true,
+          "matches": "[id=\"com.tencent.mm:id/huk\"] > [text=\"不感兴趣原因\"][visibleToUser=true] +2 @[id=\"com.tencent.mm:id/hui\"][text=\"确认\"][clickable=true][visibleToUser=true][width>0 && height>0]"
+        }
+      ],
+      "matchRoot": true
+    },
+    {
+      "key": 1,
+      "name": "功能类-微信设备快捷登录",
+      "desc": "自动点击[登录]Win/Mac/平板/手表等客户端",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "activityIds": [
+            ".plugin.webwx.ui.ExtDeviceWXLoginUI",
+            ".ui.LauncherUI"
+          ],
+          "matches": "RelativeLayout[vid!=null][left!=0] > ImageView[width = height] + TextView[text^=\"登录\" || text^=\"登入\" || text^=\"Log in to Weixin for\"][visibleToUser=true] +n * > Button[text=\"登录\" || text=\"登入\" || text=\"Log In\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "功能类-自动授权登录",
+      "desc": "自动允许使用头像昵称等",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": [
+            ".plugin.base.stub.UIEntryStub",
+            ".ui.LauncherUI",
+            ".plugin.webview.ui.tools.MMWebViewUI",
+            ".plugin.webview.ui.tools.SDKOAuthUI"
+          ],
+          "matches": [
+            "[text^=\"获取你的\" || text^=\"取得你的\" || text^=\"你的昵称\"]",
+            "[text=\"允许\" || text=\"允許\"]"
+          ]
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "activityIds": ".plugin.webview.ui.tools.SDKOAuthOtherUI",
+          "matches": [
+            "[text=\"申请获得\"][visibleToUser=true]",
+            "[text=\"允许\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "功能类-微信读书网页版扫码登录自动授权",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "activityIds": ".plugin.webview.ui.tools.MMWebViewUI",
+      "rules": [
+        {
+          "key": 1,
+          "matches": "[text=\"微信读书网页版\"] +3 Button[text=\"登 录\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "key": 2,
+          "action": "back",
+          "matches": "[text=\"登录成功\"]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "功能类-自动领取红包",
+      "desc": "自动领取私聊红包,群聊红包",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 1,
+          "name": "点击别人发的红包",
+          "activityIds": [
+            ".ui.LauncherUI",
+            ".ui.chatting.variants.ChattingMainUI"
+          ],
+          "matches": "LinearLayout[childCount=1] >2 @FrameLayout[clickable=true] >3 [childCount=1] <2 LinearLayout +(1,2) RelativeLayout > [text=\"微信红包\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "key": 2,
+          "name": "点击红包-开",
+          "matchRoot": true,
+          "activityIds": ".plugin.luckymoney.ui.LuckyMoney",
+          "matches": "@Button[desc=\"开\" || desc=\"開\"] -(2,3) LinearLayout >2 [text$=\"红包\" || text$=\"紅包\"]"
+        },
+        {
+          "preKeys": [
+            1,
+            2
+          ],
+          "name": "从红包结算界面返回",
+          "activityIds": ".plugin.luckymoney.ui.LuckyMoney",
+          "matches": "@ImageView[desc=\"返回\"] +n LinearLayout >8 [text$=\"红包\" || text$=\"紅包\"]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "功能类-自动[关闭]已抢完的红包",
+      "desc": "点击x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.luckymoney.ui.LuckyMoneyNewReceiveUI",
+          "matches": "@[desc=\"关闭\"] - [visibleToUser=true] >3 [text^=\"手慢了\"][text*=\"红包\"][text.length<15]"
+        }
+      ]
+    },
+    {
+      "key": 7,
+      "name": "功能类-自动[选中]发送原图",
+      "desc": "自动选中底部中间的发送原图，可手动取消勾选",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "actionMaximumKey": 1,
+      "activityIds": [
+        ".plugin.gallery.ui.AlbumPreviewUI",
+        ".plugin.gallery.ui.ImagePreviewUI",
+        ".plugin.picker.LocalMediaPickerUI",
+        ".plugin.picker.preview.LocalMediaPreviewUI"
+      ],
+      "rules": [
+        {
+          "key": 1,
+          "matches": "@[clickable=true][desc^=\"未选中\" || desc^=\"未選定\" || desc^=\"Unselected\"] + [text=\"原图\" || text=\"原圖\" || text=\"Full Image\"][visibleToUser=true]"
+        },
+        {
+          "key": 2,
+          "matches": "@[clickable=true] > [checkable=true][checked=false] + [text=\"原图\" || text=\"原圖\" || text=\"Full Image\"][visibleToUser=true]"
+        },
+        {
+          "key": 3,
+          "matches": "[clickable=true][desc^=\"未选中\" || desc^=\"未選定\" || desc^=\"Unselected\"][!(desc*=\"选择\")][text=null]"
+        }
+      ]
+    },
+    {
+      "key": 9,
+      "name": "功能类-自动查看原图",
+      "desc": "自动点击底部左侧[查看原图]按钮",
+      "activityIds": [
+        ".ui.chatting.gallery.ImageGalleryUI",
+        ".ui.LauncherUI"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "anyMatches": [
+            "Button[text^=\"查看\"][clickable=true][visibleToUser=true]",
+            "Button[clickable=true][text^=\"查看\"][visibleToUser=true]"
+          ]
+        },
+        {
+          "key": 1,
+          "activityIds": ".ui.LauncherUI",
+          "matches": "[text^=\"原图\"][clickable=true][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 10,
+      "name": "开屏广告-微信小程序",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "forcedTime": 10000,
+      "priorityTime": 10000,
+      "activityIds": [
+        ".plugin.appbrand.ui.AppBrandUI",
+        ".plugin.appbrand.launching.AppBrandLaunchProxyUI",
+        ".plugin.appbrand.ui.AppBrandPluginUI"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "actionDelay": 800,
+          "matches": [
+            "[text=\"广告\" || text=\"廣告\"][visibleToUser=true]",
+            "[text=\"跳过\" || text=\"跳過\"][visibleToUser=true]"
+          ]
+        },
+        {
+          "key": 1,
+          "matchRoot": true,
+          "actionCd": 500,
+          "matches": "@TextView[text*=\"跳过\"][text.length<10][height<150] <<(25-n) FrameLayout[childCount=2] <(1,2) * < [id=\"android:id/content\"]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 11,
+      "name": "功能类-网页版文件传输助手扫码自动授权",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "activityIds": ".ui.LauncherUI",
+          "matches": "[text=\"打开网页版文件传输助手\"] + * > Button[text=\"打开\"]"
+        }
+      ]
+    },
+    {
+      "key": 17,
+      "name": "青少年模式",
+      "fastQuery": true,
+      "matchTime": 20000,
+      "actionMaximum": 1,
+      "activityIds": [
+        ".plugin.finder.",
+        ".ui.LauncherUI"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@[text=\"我知道了\"][index=parent.childCount.minus(1)] <n LinearLayout > [text^=\"为呵护未成年人健康成长\"][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "matches": "@[text=\"不再提醒\"][clickable=true] <2 [index=parent.childCount.minus(1)] -n [text^=\"为呵护未成年人健康成长\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 18,
+      "name": "功能类-青少年模式自动点击验证密码",
+      "desc": "点击“验证密码”以申请临时访问",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": ".plugin.teenmode.ui.AuthorizationRequestUI",
+          "matches": "@LinearLayout[childCount=2] > TextView[text=\"验证密码\"]"
+        },
+        {
+          "key": 1,
+          "activityIds": ".plugin.webview.ui.tools.MMWebViewUI",
+          "matches": "View[desc=\"验证密码\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 19,
+      "name": "功能类-订阅号-展开更早的消息",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": ".plugin.brandservice.ui.timeline.BizTimeLineUI",
+          "matches": "@[clickable=true] > [text=\"展开更早的消息\"]"
+        },
+        {
+          "key": 1,
+          "matches": "[desc=\"展开更早的消息\"]"
+        }
+      ]
+    },
+    {
+      "key": 22,
+      "name": "功能类-开启青少年模式后的每日验证",
+      "desc": "点击\"验证密码\"",
+      "rules": [
+        {
+          "action": "clickCenter",
+          "activityIds": ".plugin.webview.ui.tools.MMWebViewUI",
+          "matches": "WebView[childCount=6] View[index=4] > [text=\"验证密码\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 25,
+      "name": "局部广告-订阅号消息-推荐文章",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "activityIds": ".plugin.brandservice.ui.flutter.BizFlutterTLFlutterViewActivity",
+          "matches": "View[childCount=2] > View[desc$=\"推​荐​\" || desc$=\"推​薦​\"][childCount=3] > ImageView[index=2][clickable=true][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 26,
+      "name": "功能类-付款后自动点击完成/返回商家",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": ".framework.app.UIPageFragmentActivity",
+          "matches": "[vid=\"kinda_button_impl_wrapper\"][desc=\"完成\" || desc=\"返回商家\"]"
+        },
+        {
+          "key": 1,
+          "versionCode": {
+            "minimum": 2980
+          },
+          "activityIds": [
+            ".plugin.lite.ui.WxaLiteAppTransparentLiteUI",
+            ".plugin.lite.ui.WxaLiteAppLiteUI",
+            ".plugin.lite.ui.WxaLiteAppPayTransparentLiteUI"
+          ],
+          "matches": "@Button[desc=\"完成\" || desc=\"返回商家\" || desc=\"Done\"][visibleToUser=true] -n [desc=\"支付成功\"] < * <<6 FrameLayout <<3 [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 27,
+      "name": "功能类-收款后自动[返回]",
+      "desc": "已收款,点击左上角退出该界面",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.remittance.ui.RemittanceDetailUI",
+          "matches": [
+            "[text*=\"已收款\"] + [text^=\"¥\"]",
+            "[vid=\"actionbar_up_indicator\"][clickable=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 28,
+      "name": "分段广告-订阅号消息-视频推荐",
+      "desc": "点击[X]-点击[不喜欢此类视频]-点击[确定]",
+      "activityIds": ".plugin.brandservice.ui.flutter.BizFlutterTLFlutterViewActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "点击[X]",
+          "matches": "[desc=\"订阅号消息\"] +3 View >2 [visibleToUser=true] - View >3 ImageView[index=2][clickable=true]"
+        },
+        {
+          "preKeys": 0,
+          "key": 1,
+          "name": "点击[不喜欢此类视频]",
+          "matches": "[desc=\"不喜欢此类视频\"][clickable=true]"
+        },
+        {
+          "preKeys": 1,
+          "key": 2,
+          "name": "点击[确定]",
+          "matches": "[desc=\"确定\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 29,
+      "name": "功能类-解锁 Windows 微信",
+      "desc": "点击[解锁]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.webwx.ui.WebWXUnlockUI",
+          "anyMatches": [
+            "[text=\"解锁\" || text=\"解鎖\"][clickable=true][visibleToUser=true]",
+            "@[text=\"解锁\" || text=\"解鎖\"][clickable=true] < LinearLayout -2 [text^=\"解锁\" || text=\"解鎖\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 30,
+      "name": "全屏广告-文档页面-腾讯文档APP弹窗",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.webview.ui.tools.MMWebViewUI",
+          "matches": "@TextView[clickable=true] + * > [visibleToUser=true][text^=\"使用 APP\"] <<n [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 31,
+      "name": "分段广告-订阅号消息-推荐阅读",
+      "desc": "点击关闭",
+      "activityIds": ".plugin.brandservice.ui.flutter.BizFlutterTLFlutterViewActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "View > Button > View[desc$=\"推​荐​\"] > ImageView[index=1][clickable=true][visibleToUser=true]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "key": 1,
+          "matches": "[desc=\"不看此类内容\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "key": 2,
+          "matches": "[desc=\"确定\"]"
+        }
+      ]
+    },
+    {
+      "key": 32,
+      "name": "权限提示-权限申请弹窗",
+      "desc": "点击取消",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".pluginsdk.permission.PermissionActivity",
+          "matches": [
+            "[text=\"权限申请\"]",
+            "[text=\"取消\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 34,
+      "name": "功能类-付款时自动点击[支付]",
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": ".framework.app.UIPageFragmentActivity",
+          "matches": "ViewGroup + ViewGroup > ViewGroup > [vid=\"kinda_button_impl_wrapper\"][desc=\"支付\"]"
+        },
+        {
+          "key": 1,
+          "matchRoot": true,
+          "forcedTime": 100000,
+          "versionCode": {
+            "minimum": 2960
+          },
+          "activityIds": ".plugin.lite.ui.WxaLiteAppTransparentLiteUI",
+          "matches": "[desc^=\"付款方式\"] + Button[desc=\"支付\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 35,
+      "name": "分段广告-公众号文章内广告",
+      "desc": "广告入口及反馈按钮绑定广告控件/feedback_icon和同一菜单；不按正文中的广告、不感兴趣、与我无关文字直接点击。",
+      "activityIds": [
+        ".plugin.brandservice.ui.timeline.preload.ui.TmplWebView",
+        ".plugin.webview.ui.tools.fts.MMSosWebViewUI",
+        ".plugin.webview.ui.tools.MMWebViewUI"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "excludeMatches": [
+            "[text=\"不感兴趣\" || text=\"与我无关\" || text=\"感谢你的反馈\"][visibleToUser=true]"
+          ],
+          "anyMatches": [
+            "@[id=\"feedbackTagContainer\"][visibleToUser=true][width>0 && height>0] > [text~=\"^广告 *$\"][visibleToUser=true]",
+            "@View[childCount=2][width<500 && height<200][visibleToUser=true][width>0 && height>0] > [text=\"广告\"][visibleToUser=true] + [text=\"feedback_icon\"][visibleToUser=true]",
+            "[id=\"ad_container\"][visibleToUser=true] >3 @View[childCount=2][clickable=true][visibleToUser=true][width>0 && height>0] > [text~=\"^广告 *$\"][visibleToUser=true]"
+          ]
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "key": 20,
+          "matches": "[id=\"feedbackTagContainer\"][visibleToUser=true] + [id=\"menu1\"][visibleToUser=true] > @[id=\"closeBtn\"][text=\"关闭此广告\"][visibleToUser=true][width>0 && height>0]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "key": 25,
+          "excludeMatches": [
+            "[text=\"感谢你的反馈\"][visibleToUser=true]",
+            "[text=\"关闭此广告\"][visibleToUser=true]"
+          ],
+          "anyMatches": [
+            "[id=\"feedbackTagContainer\"][visibleToUser=true] + [id=\"menu1\"][visibleToUser=true] > @[id=\"dislike\"][text=\"不感兴趣\"][visibleToUser=true][width>0 && height>0]",
+            "[text=\"广告\"][visibleToUser=true] + [text=\"feedback_icon\"][visibleToUser=true] <2 View[childCount=2][visibleToUser=true] < View[parent!=null][childCount=2][visibleToUser=true][width>0 && width<500 && height>0 && height<200] > View[childCount=2][index=1][visibleToUser=true][top>=parent.bottom][top<parent.bottom.plus(parent.height)] > @[text=\"不感兴趣\"][visibleToUser=true][width>0 && height>0] + [text=\"投诉\"][visibleToUser=true]"
+          ]
+        },
+        {
+          "preKeys": [
+            25
+          ],
+          "key": 50,
+          "anyMatches": [
+            "[id=\"feedbackTagContainer\"][visibleToUser=true] + [id=\"menu2\"][visibleToUser=true] > @[id=\"isdismatch\"][text=\"与我无关\"][visibleToUser=true][width>0 && height>0]",
+            "[text=\"广告\"][visibleToUser=true] + [text=\"feedback_icon\"][visibleToUser=true] <2 View[childCount=2][visibleToUser=true] < View[parent!=null][childCount=2][visibleToUser=true][width>0 && width<500 && height>0 && height<200] > View[childCount=3][index=1][visibleToUser=true][top>=parent.bottom][top<parent.bottom.plus(parent.height)] > @[text=\"与我无关\"][visibleToUser=true][width>0 && height>0] + [text=\"重复收到多次\"][visibleToUser=true] + [text=\"内容太差\"][visibleToUser=true]"
+          ]
+        }
+      ],
+      "matchRoot": true
+    },
+    {
+      "key": 36,
+      "name": "功能类-自动点击[查看原视频]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.chatting.gallery.ImageGalleryUI",
+          "matches": "[text^=\"查看原视频\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 37,
+      "name": "全屏广告-小程序弹窗广告",
+      "desc": "点击关闭",
+      "matchTime": 20000,
+      "actionCd": 300,
+      "actionDelay": 300,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.appbrand.ui.AppBrandUI",
+          "excludeMatches": "[text=\"跳过\" || text=\"跳過\"][visibleToUser=true]",
+          "matches": "@ImageView[visibleToUser=true][childCount=0][text=null] < FrameLayout[childCount=1] < FrameLayout[childCount=1] <2 FrameLayout[childCount=2] - FrameLayout >4 [text=\"广告\"]"
+        }
+      ]
+    },
+    {
+      "key": 38,
+      "name": "功能类-自动语音转文字",
+      "desc": "点击语音旁边的转文字",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".ui.LauncherUI",
+            ".ui.chatting.ChattingUI",
+            ".ui.chatting.variants.ChattingMainUI"
+          ],
+          "matches": "@RelativeLayout[clickable=true] -2 FrameLayout >2 [desc^=\"语音\" && desc$=\"未播放\"] + [text^=\"0\" || text^=\"1\" || text^=\"2\" || text^=\"3\" || text^=\"4\" || text^=\"5\" || text^=\"6\" || text^=\"7\" || text^=\"8\" || text^=\"9\"]"
+        }
+      ]
+    },
+    {
+      "key": 39,
+      "name": "功能类-语音/视频通话呼入10秒后自动点击接听",
+      "rules": [
+        {
+          "matchTime": 15000,
+          "actionDelay": 10000,
+          "activityIds": [
+            ".plugin.voip.ui.VideoActivity",
+            ".ui.LauncherUI"
+          ],
+          "matches": "Button[desc=\"接听\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 40,
+      "name": "功能类-点击语音条菜单里的转文字",
+      "desc": "点击 长按语音条后弹出的菜单 中的转文字",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".ui.LauncherUI",
+            ".ui.chatting.ChattingUI",
+            ".ui.chatting.variants.ChattingMainUI"
+          ],
+          "matches": "@[clickable=true] >2 [text=\"转文字\"]"
+        }
+      ]
+    },
+    {
+      "key": 41,
+      "name": "功能类-自动接龙",
+      "desc": "手动点接龙后点击加号再点击发送",
+      "fastQuery": true,
+      "activityIds": ".plugin.groupsolitaire.ui.GroupSolitatireEditUI",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@[desc=\"添加\"] -n LinearLayout > [text^=\"由\"][text*=\"发起接龙\"][visibleToUser=true]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "matches": "@[text=\"发送\"] < LinearLayout < LinearLayout < LinearLayout - [vid=\"actionbar_up_indicator\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 42,
+      "name": "功能类-自动点击未读消息（头像右上角为数字）",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.LauncherUI",
+          "matches": "TextView[childCount=0] - ImageView[childCount=0] < RelativeLayout[childCount=2] < LinearLayout < @LinearLayout[clickable=true][visibleToUser=true] <n ListView <n RelativeLayout < FrameLayout < FrameLayout < FrameLayout < ViewGroup < FrameLayout < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 43,
+      "name": "功能类-自动点击未读消息（头像右上角为红点）",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.LauncherUI",
+          "matches": "ImageView[childCount=0] - ImageView[childCount=0] < RelativeLayout[childCount=2] < LinearLayout < @LinearLayout[clickable=true][visibleToUser=true] <n ListView <n RelativeLayout < FrameLayout < FrameLayout < FrameLayout < ViewGroup < FrameLayout < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 44,
+      "name": "功能类-自动允许打开外部应用",
+      "desc": "点击允许",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".plugin.webview.ui.tools.MMWebViewUI",
+            ".ui.chatting.AppAttachNewDownloadUI"
+          ],
+          "matches": [
+            "[text^=\"即将离开微信\"][visibleToUser=true]",
+            "[text=\"允许\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 45,
+      "name": "功能类-文件自动预览",
+      "desc": "未下载文件-点击预览",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "activityIds": ".ui.container.MMCommonActivity",
+          "matches": "[text^=\"14天内可以预览\"] - [text=\"下载\"] - [text=\"预览\"][clickable=true][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 46,
+      "name": "功能类-文件自动app打开",
+      "desc": "办公文档点下面第一个(默认)app打开",
+      "fastQuery": true,
+      "actionCd": 2000,
+      "rules": [
+        {
+          "activityIds": ".ui.chatting.AppAttachNewDownloadUI",
+          "matches": "@LinearLayout[clickable=true][index=0][childCount=2] < RecyclerView - [text=\"用QQ浏览器打开\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 47,
+      "name": "功能类-自动清缓存",
+      "desc": "存储空间页-清理x2-完成⚠️小程序重要数据慎用",
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "fastQuery": true,
+      "activityIds": [
+        ".ui.vas.VASCommonActivity",
+        ".plugin.clean.ui.fileindexui."
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "name": "清理",
+          "matches": "@Button[text^=\"清\" || text=\"Clear\"][clickable=true][visibleToUser=true] -n [text=\"缓存\" || text=\"快取\" || text=\"Cache\"]"
+        },
+        {
+          "key": 1,
+          "preKeys": [
+            0
+          ],
+          "name": "确认清理",
+          "matches": "@Button[clickable=true] < FrameLayout -2 [text*=\"估\" || text=\"Estimated\"][visibleToUser=true]"
+        },
+        {
+          "key": 2,
+          "preKeys": [
+            1
+          ],
+          "name": "再次确认",
+          "matches": "LinearLayout > @Button[clickable=true][visibleToUser=true] - [text=\"取消\" || text=\"Cancel\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "name": "完成",
+          "matches": "LinearLayout[childCount=5] > [text=\"我知道了\" || text=\"Got It\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 48,
+      "name": "功能类-快速切换账号",
+      "desc": "适合俩账号的使用再多无法确认是否可行",
+      "actionMaximum": 2,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.setting.ui.setting.SettingsSwitchAccountUI",
+          "matches": "RelativeLayout[childCount=2] < @FrameLayout[clickable=true] <n LinearLayout - RelativeLayout > [text$=\"以切换账号\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 49,
+      "name": "功能类-直接定位到聊天位置",
+      "desc": "点引用消息-定位到聊天位置(左下角)",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.chatting.TextPreviewUI",
+          "matches": "@LinearLayout[clickable=true] - * ->2 TextView[visibleToUser=true] < * < ScrollView < * < * < * < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 50,
+      "name": "功能类-语音通话时自动开[扬声器]",
+      "desc": "⚠️ 1分钟内接听有效",
+      "rules": [
+        {
+          "fastQuery": true,
+          "actionCd": 3000,
+          "forcedTime": 60000,
+          "activityIds": ".plugin.voip.ui.VideoActivity",
+          "matches": "@Button[desc=\"扬声器已关\"] <n View[childCount>8] < View < View < View < FrameLayout < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 51,
+      "name": "功能类-Web风险警告[继续访问]",
+      "desc": "自动点击继续访问",
+      "matchTime": 10000,
+      "rules": [
+        {
+          "activityIds": ".plugin.webview.ui.tools.MMWebViewUI",
+          "matches": "[text=\"将要访问\"] +2 [text^=\"该网页可能存在\"] + Button[text=\"继续访问\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 52,
+      "name": "通知提示-其他应用打开使用功能须知",
+      "desc": "直接确认不墨迹",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.chatting.AppAttachNewDownloadUI",
+          "matches": "@[text=\"确认\" || text=\"確定\" || text=\"OK\"] <2 [childCount=2] - ScrollView >2 [visibleToUser=true][text*=\"《其他应用打开\"] - [text=\"功能使用须知\"]"
+        }
+      ]
+    },
+    {
+      "key": 53,
+      "name": "通知提示-暂不开启指纹支付",
+      "desc": "支付后出现全屏弹窗=> 点击[暂不开启]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.lite.ui.WxaLiteAppTransparentLiteUI",
+          "matches": "@Button[desc=\"暂不开启\"][visibleToUser=true] - * -> [desc=\"开启指纹支付\"] <<2 * <n [childCount>3] <<6 [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 54,
+      "name": "功能类-撤回消息自动重新编辑",
+      "desc": "只点击一次(切换界面重置次数),日常情况够用",
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.LauncherUI",
+          "matches": "@TextView[clickable=true][text$=\"重新编辑\"][visibleToUser=true] <<2 LinearLayout <n RecyclerView <2 * <<2 * <4 * < * <2 * - FrameLayout >4 [vid=\"actionbar_up_indicator\"]"
+        }
+      ]
+    },
+    {
+      "key": 55,
+      "name": "其他-支付前[取消]开通免密支付",
+      "desc": "支付前,[关掉]默认开通免密支付的开关",
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.tencent.mm.plugin.lite.ui.WxaLiteAppTransparentLiteUI",
+          "matches": "@Button[desc^=\"开通\"][desc*=\"免密支付\"][desc$=\"打开\"] <2 View[childCount=8] <<7 FrameLayout <<3 [id=\"android:id/content\"]",
+          "position": {
+            "right": "width * 0.1",
+            "top": "height/2"
+          }
+        }
+      ]
+    },
+    {
+      "key": 56,
+      "name": "功能类-付款时点击[使用面容]",
+      "desc": "由[输密码]切换到[刷脸]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".plugin.lite.ui.WxaLiteAppTransparentLiteUI",
+          "matches": [
+            "[vid=\"tenpay_keyboard_1\"][visibleToUser=true]",
+            "[desc=\"使用面容\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 57,
+      "name": "功能类-登录-平板同时登",
+      "desc": "自动点击[平板和手机同时登录]",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "matchTime": 10000,
+      "activityIds": ".plugin.account.ui.LoginPasswordUI",
+      "rules": [
+        {
+          "matches": "@Button[text=\"平板和手机同时登录\"] - LinearLayout >3 [text=\"登录\"]"
+        }
+      ]
+    }
+  ]
+}

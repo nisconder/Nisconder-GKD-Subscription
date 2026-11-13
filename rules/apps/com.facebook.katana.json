@@ -1,0 +1,27 @@
+{
+  "id": "com.facebook.katana",
+  "name": "Facebook",
+  "groups": [
+    {
+      "key": 1,
+      "name": "功能类-自动点击[查看翻译]",
+      "activityIds": [
+        ".immersiveactivity.ImmersiveActivity",
+        ".activity.FbMainTabActivity"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "matches": "@ViewGroup[clickable=true] > [visibleToUser=true][text=\"查看翻译\"] <<n [id=\"android:id/list\"]"
+        },
+        {
+          "key": 1,
+          "matchRoot": true,
+          "actionCd": 300,
+          "matches": "[text=\"查看翻译\"][clickable=true][visibleToUser=true]"
+        }
+      ]
+    }
+  ]
+}

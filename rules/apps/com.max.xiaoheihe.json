@@ -1,0 +1,67 @@
+{
+  "id": "com.max.xiaoheihe",
+  "name": "小黑盒",
+  "groups": [
+    {
+      "key": 1,
+      "name": "功能类-签到成功弹窗",
+      "desc": "返回关闭弹窗",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "action": "back",
+          "matches": "[text*=\"签到成功\"][text.length<10]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "局部广告-卡片广告",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "name": "收藏帖子后底部推荐关注卡片",
+          "fastQuery": true,
+          "activityIds": ".module.bbs.post.ui.activitys.WebNewsPostPageActivity",
+          "matches": "[vid=\"iv_notify_close\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "功能类-自动[查看原图]",
+      "desc": "点击[查看原图]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".module.bbs.post.ui.activitys.WebNewsPostPageActivity",
+            ".module.bbs.post.ui.activitys.PicturePostPageActivity",
+            ".module.bbs.post.ui.activitys.v2.PicturePostPageActivityV2",
+            ".module.bbs.post.ui.activitys.v2.WebNewsPostPageActivityV2"
+          ],
+          "matches": "[vid=\"tv_original\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "功能类-自动隐藏cy评论",
+      "desc": "进入帖子点击一次[Cy]按钮",
+      "rules": [
+        {
+          "fastQuery": true,
+          "actionMaximum": 1,
+          "activityIds": [
+            ".module.bbs.post.ui.activitys.v2.WebNewsPostPageActivityV2",
+            ".module.bbs.post.ui.activitys.v2.PicturePostPageActivityV2"
+          ],
+          "matches": "[vid=\"tb_cy_filter\"][text=\"关闭\"][visibleToUser=true]"
+        }
+      ]
+    }
+  ]
+}

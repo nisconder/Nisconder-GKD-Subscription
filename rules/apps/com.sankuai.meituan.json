@@ -1,0 +1,275 @@
+{
+  "id": "com.sankuai.meituan",
+  "name": "美团",
+  "groups": [
+    {
+      "key": -1,
+      "name": "开屏广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "TextView[text*=\"跳过\"][text.length<8][clickable=true]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "更新提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            "com.meituan.android.upgrade.UpgradeDialogActivity",
+            "com.meituan.android.pt.homepage.activity.MainActivity"
+          ],
+          "matches": [
+            "[vid=\"update_logo\" || text=\"立即升级\"]",
+            "[vid=\"btn_close\" || text=\"暂不升级\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "全屏广告-弹窗广告",
+      "rules": [
+        {
+          "key": 0,
+          "name": "美团买菜-折扣弹窗",
+          "activityIds": "com.meituan.retail.c.android.mrn.mrn.MallMrnModal",
+          "matches": "ViewGroup > ViewGroup[childCount=6] > ViewGroup[childCount=1] > ImageView[childCount=0][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "name": "美团买菜-红包弹窗",
+          "activityIds": "com.meituan.retail.c.android.mrn.mrn.MallMrnModal",
+          "matches": "@ImageView < ViewGroup +3 ViewGroup > ViewGroup > TextView[text^=\"红包已到账\"]"
+        },
+        {
+          "key": 2,
+          "name": "美团买菜-支付成功后-红包弹窗",
+          "activityIds": "com.meituan.retail.c.android.mrn.mrn.MallMrnModal",
+          "matches": "TextView[text=\"恭喜你获得以下权益\"] + ViewGroup > ImageView"
+        },
+        {
+          "key": 3,
+          "name": "超市便利-弹窗广告",
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.store.poi.list.newp.PoiVerticalityHomeActivity",
+          "matches": "@ImageView[childCount=0][clickable=true][visibleToUser=true] < FrameLayout[childCount=1] <2 FrameLayout[childCount=2] < FrameLayout[childCount=1] < FrameLayout[childCount=1] < FrameLayout[childCount=1] < FrameLayout[childCount=1] < [id=\"android:id/content\"]"
+        },
+        {
+          "key": 4,
+          "name": "骑行卡-红包弹窗",
+          "activityIds": "com.meituan.mmp.lib.HeraActivity",
+          "matches": "View[childCount=3] > View + TextView + TextView[text=\"\"][visibleToUser=true]"
+        },
+        {
+          "key": 5,
+          "name": "订单完成后的红包弹窗",
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.bussiness.order.detail.WMOrderDetailActivity",
+          "matches": "@ImageView[clickable=true] - * >3 [text=\"开心收下\"]"
+        },
+        {
+          "key": 6,
+          "name": "邀请好友提现弹窗",
+          "activityIds": "com.meituan.msc.modules.container.MSCActivity",
+          "matches": "WebView > View > View[childCount=1] >(1,2) View[childCount=2] > View + Image[text=\"\"][childCount=0][left>0][width<200]"
+        },
+        {
+          "key": 7,
+          "name": "首页-半价神券弹窗",
+          "fastQuery": true,
+          "activityIds": "com.meituan.android.pt.homepage.activity.MainActivity",
+          "matches": "@ViewGroup[clickable=true][width <120 && width<120][childCount=0] <2 ViewGroup < ViewGroup < ViewGroup < FrameLayout < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "评价提示-订单调查弹窗",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 1,
+          "name": "我的页面-小调查",
+          "action": "back",
+          "activityIds": "com.meituan.retail.c.android.mrn.mrn.MallMrnModal",
+          "matches": "TextView[text=\"小调查\"]"
+        },
+        {
+          "key": 2,
+          "name": "订单详情页匿名调查",
+          "action": "back",
+          "activityIds": "com.sankuai.waimai.bussiness.order.detail.WMOrderDetailActivity",
+          "matches": "[vid=\"questionnaireTitle\"]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "局部广告-悬浮广告",
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": [
+            "com.meituan.android.pt.homepage.activity.MainActivity",
+            "com.miui.home.launcher.Launcher"
+          ],
+          "matches": "FrameLayout > @ImageView + ImageView[desc=\"资质与规则\"]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.business.page.homepage.TakeoutActivity",
+          "matches": "[vid=\"marking_sidebar_close\"]"
+        },
+        {
+          "key": 2,
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.business.restaurant.poicontainer.WMRestaurantActivity",
+          "matches": "@ImageView[visibleToUser=true] - [text^=\"收藏店铺领\"]"
+        },
+        {
+          "key": 3,
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.store.drug.home.NewDrugHomeActivity",
+          "matches": "@ImageView[width<80 && height<80][clickable=true] <n * < [vid=\"novel_float_view_new\"]"
+        },
+        {
+          "key": 4,
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.store.drug.home.NewDrugHomeActivity",
+          "matches": "[vid=\"live_float_view_container\"] > [vid=\"close_btn\"]"
+        }
+      ]
+    },
+    {
+      "key": 7,
+      "name": "权限提示-定位权限",
+      "desc": "首页/外卖界面-\"打开位置开关弹窗\"-点击右侧x关闭",
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "actionMaximumKey": 0,
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": "com.meituan.android.pt.homepage.activity.MainActivity",
+          "matches": "[vid=\"location_close\"]"
+        },
+        {
+          "key": 1,
+          "activityIds": "com.sankuai.waimai.business.page.homepage.TakeoutActivity",
+          "matches": "[vid=\"location_layer_close\"]"
+        },
+        {
+          "key": 2,
+          "activityIds": ".MPMainActivity",
+          "matches": "[text=\"定位服务尚未开启\"] +3 TextView"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "权限提示-通知权限",
+      "desc": "点击跳过",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": "com.meituan.android.pt.homepage.activity.MainActivity",
+          "matches": "@[vid=\"iv_close\" || text=\"跳过\"] -(1,2) [text^=\"开启通知\"]"
+        }
+      ]
+    },
+    {
+      "key": 10,
+      "name": "全屏广告-新人返场特惠",
+      "desc": "点击左上角返回",
+      "rules": [
+        {
+          "matchTime": 10000,
+          "fastQuery": true,
+          "activityIds": "com.meituan.android.base.knb.KNBWebViewActivity",
+          "matches": "@TextView[text=\"\"][clickable=true][childCount=0] < View[id=\"shareNav\"] <2 View < View < WebView < WebView < [vid=\"mil_container\"]"
+        }
+      ]
+    },
+    {
+      "key": 11,
+      "name": "全屏广告-视频页弹窗广告",
+      "desc": "点击X",
+      "fastQuery": true,
+      "activityIds": "com.meituan.android.pt.homepage.activity.MainActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "视频页-签到弹窗",
+          "matches": "@ImageView[index=5] +n ViewGroup[clickable=true] >n [text=\"签到必得现金\"]"
+        },
+        {
+          "key": 1,
+          "name": "视频页-领现金弹窗",
+          "matches": "@ImageView[visibleToUser=true] - ViewGroup[childCount=3] > [text^=\"签到成功\"]"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "功能类-付款后自动点击完成",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": "com.sankuai.waimai.platform.machpro.container.WMMPActivity",
+          "matches": "@[text=\"完成\"] -n ViewGroup >(1,7) [text=\"商家已接单\" || text=\"等待商家接单\"]"
+        },
+        {
+          "key": 1,
+          "action": "clickCenter",
+          "activityIds": "com.meituan.android.hybridcashier.HybridCashierActivity",
+          "matches": "[text=\"支付成功\"] >(5,7) @[visibleToUser=true][text=\"完成\"] <<n [vid=\"mil_container\"]"
+        }
+      ]
+    },
+    {
+      "key": 13,
+      "name": "局部广告-直播讲解悬浮窗",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.sankuai.waimai.business.restaurant.poicontainer.WMRestaurantActivity",
+          "matches": "@ImageView[clickable=true][visibleToUser=true] + [text=\"正在讲解\"]"
+        }
+      ]
+    },
+    {
+      "key": 14,
+      "name": "全屏广告-下单后开通月付提示",
+      "desc": "出现后-按[返回键]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.meituan.android.hybridcashier.HybridCashierActivity",
+          "matches": "@[text*=\"美团月付\"][parent.childCount=6] <<n [childCount=2][getChild(1).text^=\"确认\"] <<n [text=\"支付成功\"] < WebView < [vid=\"mil_container\"]",
+          "action": "back"
+        }
+      ]
+    }
+  ]
+}

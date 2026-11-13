@@ -1,0 +1,20 @@
+{
+  "id": "org.localsend.localsend_app",
+  "name": "LocalSend",
+  "groups": [
+    {
+      "key": 1,
+      "name": "功能类-文件传输时自动点击[高级]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "matchRoot": true,
+          "actionCd": 3500,
+          "forcedTime": 100000,
+          "activityIds": ".MainActivity",
+          "matches": "@[desc=\"高级\"] < View <2 View[childCount=2] < View < View < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    }
+  ]
+}

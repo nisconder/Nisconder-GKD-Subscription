@@ -1,0 +1,79 @@
+{
+  "id": "com.alibaba.android.rimet",
+  "name": "钉钉",
+  "groups": [
+    {
+      "key": 1,
+      "name": "局部广告-消息列表上方广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@FrameLayout > [vid=\"icft_close\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "功能类-文件即将过期提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@FrameLayout[vid=\"layout_close\"] -2 TextView[text=\"文件即将过期请备份\"]",
+          "action": "clickCenter"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "功能类-自动点击原图",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "activityIds": "com.alibaba.android.dingtalk.photoui.activitys.AlbumActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "CheckBox[vid=\"cb_send_origin\"][text=\"原图\"][checked=false]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "更新提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@Button[text*=\"暂不更新\"] + Button[text*=\"更新\"]"
+        },
+        {
+          "matches": "TextView[vid=\"dialog_close_button\"]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "功能类-扫码自动登录桌面版",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "activity",
+      "activityIds": "com.alibaba.android.user.qrcode.WebLoginActivity",
+      "rules": [
+        {
+          "matches": "[vid=\"btn_login\"]"
+        }
+      ]
+    }
+  ]
+}

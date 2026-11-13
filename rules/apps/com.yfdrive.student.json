@@ -1,0 +1,25 @@
+{
+  "id": "com.yfdrive.student",
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告-启动页广告",
+      "desc": "仅在启动页广告容器内点击可见的跳过按钮。已在5.02.106（182）验证。",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "activityIds": [
+        "com.qx.student.activity.student.StartActivity"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "action": "clickCenter",
+          "matches": "@[text=\"跳过\"][visibleToUser=true] <<n [vid=\"splash_container\"]"
+        }
+      ]
+    }
+  ],
+  "name": "远方学车"
+}

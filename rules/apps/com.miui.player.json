@@ -1,0 +1,155 @@
+{
+  "id": "com.miui.player",
+  "name": "小米音乐",
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "action": "clickCenter",
+          "matches": "[text*=\"跳过\"][text.length<10][width<500 && height<300][visibleToUser=true]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "局部广告-悬浮广告",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.player.MusicPlayerActivity",
+          "matches": "[vid=\"free_mode_tips_layout\"] + [vid=\"iv_close\"]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[vid=\"cl_floating_promote\"] > [vid=\"iv_close\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "局部广告-横幅广告",
+      "desc": "关闭播放页面横幅广告",
+      "fastQuery": true,
+      "activityIds": "com.tencent.qqmusiclite.activity.player.MusicPlayerActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[vid=\"ad_skip_text\"][text=\"关闭\"]"
+        },
+        {
+          "key": 1,
+          "matches": "[text=\"广告｜跳过\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "全屏广告-弹窗广告",
+      "desc": "点击关闭",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiccommon.hybrid.HybridViewActivity",
+          "matches": "@ViewGroup[clickable=true][childCount=0][visibleToUser=true] < ViewGroup[childCount=1] < ViewGroup[childCount=2] < FrameLayout < FrameLayout < [vid=\"webview_container\"]"
+        },
+        {
+          "key": 1,
+          "activityIds": "com.tencent.qqmusiccommon.hybrid.HybridViewActivity",
+          "matches": "[id=null][desc~=\".*关闭.*按钮.*\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "全屏广告-明确标记广告的弹窗",
+      "desc": "仅关闭容器内有可见“广告”标记的弹窗；无标记的年度报告邀请保留。真实广告正例待验证。",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[text=\"广告\" || desc=\"广告\"][visibleToUser=true][width>0 && height>0] <<n [vid=\"fl_dialog_container\"][visibleToUser=true] + @[vid=\"iv_close_dialog_button\"][visibleToUser=true][clickable=true][width>0 && height>0]",
+          "action": "clickNode"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "功能类-看广告视频领VIP",
+      "desc": "等待15s自动点击\"退出\"",
+      "rules": [
+        {
+          "actionDelay": 15000,
+          "fastQuery": true,
+          "activityIds": "com.tencentmusic.ad.tmead.reward.TMERewardActivity",
+          "matches": "[vid=\"tme_ad_skip_button\"]"
+        }
+      ]
+    },
+    {
+      "key": 13,
+      "name": "局部广告-主界面卡片广告",
+      "rules": [
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[vid=\"ad_close\"][text=null]"
+        },
+        {
+          "key": 2,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[vid=\"banner_divider\"] - * > [vid=\"close_banner\"]"
+        }
+      ]
+    },
+    {
+      "key": 14,
+      "name": "分段广告-首页卡片广告",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[vid=\"ad_more\"]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "key": 20,
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.MainActivity",
+          "matches": "[vid=\"ad_close\"][text=\"不感兴趣\"]"
+        }
+      ]
+    },
+    {
+      "key": 15,
+      "name": "全屏广告-体验臻品音质",
+      "desc": "连接设备30min臻品音质-> x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.tencent.qqmusiclite.activity.player.MusicPlayerActivity",
+          "matches": "[text$=\"钟免费体验\"] < * - [text$=\"臻品音质\"] <2 * - @View[clickable=true][text=null][childCount=0] <<4 [id=\"android:id/content\"]"
+        }
+      ]
+    }
+  ]
+}

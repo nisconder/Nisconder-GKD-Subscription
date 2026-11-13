@@ -1,0 +1,308 @@
+{
+  "formatVersion": 1,
+  "groupDefaults": {
+    "fastQuery": true,
+    "actionMaximum": 1,
+    "resetMatch": "app",
+    "matchAnyApp": false,
+    "matchSystemApp": false,
+    "matchLauncher": false,
+    "matchRoot": true
+  },
+  "selectorDefinitions": {
+    "consent_dialogs": [
+      "[text*=\"请阅读并同意\" || text*=\"请先阅读并同意\" || text*=\"请您仔细阅读\" || text*=\"请您务必认真阅读\" || (text*=\"协议\" && text*=\"隐私\")][visibleToUser=true] <<n [id=\"android:id/parentPanel\"][visibleToUser=true] >n [text=\"同意\" || text=\"同意并继续\" || text=\"同意并使用\" || text=\"同意并进入\"][clickable=true][visibleToUser=true]",
+      "[text*=\"协议\" && text*=\"隐私\"][visibleToUser=true] < [visibleToUser=true] > [text=\"同意\" || text=\"同意并继续\" || text=\"同意并使用\" || text=\"同意并进入\"][clickable=true][visibleToUser=true]"
+    ]
+  },
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告-全局",
+      "desc": "仅处理明确广告SDK跳过ID，或splash内广告跳转文案与相邻倒计时的窄变体；切入应用8秒内最多一次。明确协议同意弹窗暂停匹配。",
+      "order": -10,
+      "matchTime": 8000,
+      "forcedTime": 8000,
+      "actionCdKey": 0,
+      "actionMaximumKey": 0,
+      "priorityTime": 8000,
+      "disableIfAppGroupMatch": "开屏广告",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[id$=\":id/tt_splash_skip_btn\"][visibleToUser=true][width>0 && height>0 && width<500 && height<300]",
+          "excludeMatches": {
+            "$ref": "consent_dialogs"
+          }
+        },
+        {
+          "key": 2,
+          "matches": "[text=\"下载或跳转第三方应用\"][visibleToUser=true] <<n [id*=\"splash\" || id*=\"Splash\"][visibleToUser=true] >n @[text=\"跳过\"][visibleToUser=true][width>0 && height>0 && width<500 && height<300] + [text~=\"[0-9]{1,2}\"][visibleToUser=true]",
+          "excludeMatches": {
+            "$ref": "consent_dialogs"
+          }
+        }
+      ],
+      "enable": true
+    },
+    {
+      "key": 1,
+      "name": "更新提示-全局",
+      "desc": "仅关闭同一原生对话框中明确的软件版本更新提醒；只点精确稍后按钮。自定义或WebView对话框须专用规则，默认关闭待正例实测。",
+      "order": -9,
+      "matchTime": 10000,
+      "forcedTime": 10000,
+      "disableIfAppGroupMatch": "更新提示",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[id=\"android:id/alertTitle\"][text=\"发现新版本\" || text=\"发现新版本！\" || text=\"检测到新版本\" || text=\"版本更新\" || text=\"应用更新\" || text=\"软件更新\" || text=\"New version available\" || text=\"Update available\"][visibleToUser=true] <<n [id=\"android:id/parentPanel\"][visibleToUser=true] >n @[id=\"android:id/button2\"][text=\"稍后\" || text=\"稍后再说\" || text=\"以后再说\" || text=\"暂不更新\" || text=\"忽略此版本\" || text=\"Later\" || text=\"Not now\"][clickable=true][visibleToUser=true]",
+          "excludeMatches": [
+            "[text*=\"强制更新\" || text*=\"必须更新\" || text*=\"必须升级\"][visibleToUser=true] <<n [id=\"android:id/parentPanel\"][visibleToUser=true]"
+          ]
+        }
+      ],
+      "enable": false
+    },
+    {
+      "key": 2,
+      "name": "青少年模式-全局",
+      "desc": "仅确认青少年模式信息提醒；不声明年龄、不切换模式、不处理家长验证或密码。默认关闭待正例实测。",
+      "order": -8,
+      "matchTime": 10000,
+      "forcedTime": 10000,
+      "disableIfAppGroupMatch": "青少年模式",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[id=\"android:id/alertTitle\"][text=\"青少年模式提醒\" || text=\"青少年模式\" || text=\"未成年人模式提醒\"][visibleToUser=true] <<n [id=\"android:id/parentPanel\"][visibleToUser=true] >n @[id=\"android:id/button1\"][text=\"我知道了\" || text=\"知道了\" || text=\"我已知晓\"][clickable=true][visibleToUser=true]",
+          "excludeMatches": [
+            "[text*=\"已满\" || text*=\"未满\" || text*=\"年龄\" || text*=\"年齡\" || text*=\"出生\" || text*=\"家长\" || text*=\"监护\" || text*=\"密码\" || text*=\"关闭青少年模式\" || text*=\"退出青少年模式\" || text*=\"开启青少年模式\" || text*=\"关闭未成年人模式\" || text*=\"退出未成年人模式\"][visibleToUser=true] <<n [id=\"android:id/parentPanel\"][visibleToUser=true]"
+          ]
+        }
+      ],
+      "enable": false
+    }
+  ],
+  "appScopes": {
+    "cn.wps.moffice_eng": [
+      0,
+      1,
+      2
+    ],
+    "com.able.wisdomtree": [
+      0,
+      1,
+      2
+    ],
+    "com.alibaba.android.rimet": [
+      0,
+      1
+    ],
+    "com.android.bankabc": [
+      0,
+      1
+    ],
+    "com.android.providers.downloads.ui": [
+      0,
+      1,
+      2
+    ],
+    "com.antutu.ABenchMark": [
+      0,
+      1,
+      2
+    ],
+    "com.baidu.BaiduMap": [
+      0,
+      1,
+      2
+    ],
+    "com.baidu.netdisk": [
+      0,
+      1
+    ],
+    "com.chinamworld.bocmbci": [
+      0,
+      1,
+      2
+    ],
+    "com.coolapk.market": [
+      0,
+      1
+    ],
+    "com.ct.client": [
+      0,
+      1
+    ],
+    "com.dragon.read": [
+      0,
+      1,
+      2
+    ],
+    "com.facebook.katana": [
+      0,
+      1,
+      2
+    ],
+    "com.google.android.apps.bard": [
+      0,
+      1,
+      2
+    ],
+    "com.google.android.gm": [
+      0,
+      1,
+      2
+    ],
+    "com.gotokeep.keep": [
+      0,
+      1,
+      2
+    ],
+    "com.hanweb.android.zhejiang.activity": [
+      0,
+      1,
+      2
+    ],
+    "com.instagram.android": [
+      0,
+      1,
+      2
+    ],
+    "com.jingdong.app.mall": [
+      0
+    ],
+    "com.jiongji.andriod.card": [
+      0,
+      1,
+      2
+    ],
+    "com.m4399.gamecenter": [
+      0,
+      1,
+      2
+    ],
+    "com.max.xiaoheihe": [
+      0,
+      1
+    ],
+    "com.mi.health": [
+      0,
+      1,
+      2
+    ],
+    "com.mipay.wallet": [
+      0,
+      1,
+      2
+    ],
+    "com.miui.player": [
+      0,
+      1,
+      2
+    ],
+    "com.miui.virtualsim": [
+      0,
+      1,
+      2
+    ],
+    "com.netease.cloudmusic": [
+      0,
+      1
+    ],
+    "com.qidian.QDReader": [
+      0,
+      1,
+      2
+    ],
+    "com.realtech.xiaocan": [
+      0,
+      1,
+      2
+    ],
+    "com.sankuai.meituan": [
+      1
+    ],
+    "com.suda.yzune.wakeupschedule": [
+      0,
+      1,
+      2
+    ],
+    "com.taobao.idlefish": [
+      0,
+      1
+    ],
+    "com.taobao.taobao": [
+      0,
+      1
+    ],
+    "com.taptap": [
+      1
+    ],
+    "com.tencent.mobileqq": [
+      0,
+      1
+    ],
+    "com.tencent.wemeet.app": [
+      0,
+      1,
+      2
+    ],
+    "com.tencent.wework": [
+      0,
+      1,
+      2
+    ],
+    "com.tianyancha.skyeye": [
+      0,
+      1,
+      2
+    ],
+    "com.tongcheng.android": [
+      0,
+      1,
+      2
+    ],
+    "com.umetrip.android.msky.app": [
+      0,
+      1,
+      2
+    ],
+    "com.xiaomi.vipaccount": [
+      0,
+      1,
+      2
+    ],
+    "com.yfdrive.student": [
+      0,
+      1,
+      2
+    ],
+    "com.youdao.translator": [
+      0,
+      1,
+      2
+    ],
+    "com.zzw.october": [
+      0,
+      1,
+      2
+    ],
+    "me.piebridge.brevent": [
+      0,
+      1,
+      2
+    ],
+    "org.moegirl.moegirlview": [
+      0,
+      1,
+      2
+    ],
+    "tv.danmaku.bili": [
+      0,
+      1,
+      2
+    ]
+  }
+}

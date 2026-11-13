@@ -1,0 +1,44 @@
+{
+  "id": "com.github.metacubex.clash.meta",
+  "name": "Clash Meta for Android",
+  "groups": [
+    {
+      "key": 1,
+      "name": "功能类-代理页面自动点击延迟测试",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.github.kr328.clash.ProxyActivity",
+          "matches": "[vid=\"url_test_view\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "功能类-自动[启动]后返回",
+      "desc": "进app后 ①点击[启动] ②返回键",
+      "fastQuery": true,
+      "activityIds": "com.github.kr328.clash.",
+      "matchTime": 1200,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 1,
+          "name": "①点击[启动]",
+          "matches": "@[clickable=true] >3 [text$=\"启动\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "name": "②返回键",
+          "action": "back",
+          "actionDelay": 120,
+          "matches": "[parent=null]"
+        }
+      ]
+    }
+  ]
+}

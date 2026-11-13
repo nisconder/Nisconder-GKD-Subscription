@@ -1,0 +1,36 @@
+name: Validate subscription
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - name: Build and test
+        run: |
+          python3 tools/build.py
+          python3 -m unittest discover -s tests -v
+          git diff --exit-code -- dist
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: validate
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - name: Check release tag
+        run: python3 -c "import json,os; assert os.environ['GITHUB_REF_NAME'] == 'v' + str(json.load(open('config.json'))['version'])"
+      - name: Publish release assets
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/gkd.json5 dist/gkd.version.json5 dist/release.json --verify-tag --title "Nisconder的GKD订阅 $GITHUB_REF_NAME" --notes-file CHANGELOG.md

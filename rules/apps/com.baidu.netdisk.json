@@ -1,0 +1,119 @@
+{
+  "id": "com.baidu.netdisk",
+  "name": "百度网盘",
+  "groups": [
+    {
+      "key": 1,
+      "name": "全屏广告-弹窗广告",
+      "desc": "点击关闭",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 3,
+          "activityIds": [
+            ".business.guide.dialog.lifeproduct.",
+            ".ui.MainActivity",
+            ".ui.Navigate"
+          ],
+          "matches": "[vid=\"iv_close\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "局部广告-卡片广告",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": ".video.VideoPlayerActivity",
+          "matches": "[vid=\"rl_ad_root\"] > [vid=\"iv_close\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "更新提示",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            ".ui.MainActivity",
+            ".ui.cloudp2p.RichMediaActivity",
+            ".module.sharelink.ChainVerifyActivity"
+          ],
+          "matches": "[text=\"立即更新\"] -(1,2) [text=\"下次再说\"]"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "权限提示-通知权限",
+      "desc": "点击关闭",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": ".ui.MainActivity",
+          "matches": [
+            "[text=\"开启推送提醒\"]",
+            "[text=\"暂不开启\"][clickable=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 9,
+      "name": "评价提示",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "activityIds": ".ui.MainActivity",
+      "rules": [
+        {
+          "matches": "[vid=\"view_score_style\"] > [text=\"以后再说\"]"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "局部广告-悬浮广告",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "activityIds": ".ui.MainActivity",
+          "matches": "[vid=\"float_btn_close\"][clickable=true][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 13,
+      "name": "分段广告-暂不开启自动备份",
+      "fastQuery": true,
+      "activityIds": [
+        ".ui.NewQuickSettingsActivity",
+        ".ui.RepeatedNewQuickSettingsActivity"
+      ],
+      "rules": [
+        {
+          "key": 0,
+          "matches": [
+            "[text=\"开启安全备份\"][visibleToUser=true]",
+            "[text=\"暂不开启\"][visibleToUser=true]"
+          ]
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "matches": "[text=\"立即开启\"] - [text=\"暂不开启\"][visibleToUser=true]"
+        }
+      ]
+    }
+  ]
+}

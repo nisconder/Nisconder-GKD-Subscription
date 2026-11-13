@@ -1,0 +1,158 @@
+{
+  "id": "com.ct.client",
+  "name": "中国电信",
+  "groups": [
+    {
+      "key": -1,
+      "name": "开屏广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "priorityTime": 10000,
+      "rules": [
+        {
+          "matches": "[text*=\"跳过\"][text.length<10][width<500 && height<300][visibleToUser=true]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "功能类-软件更新/安装后的用户引导",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": ".activity.UserGuideActivity",
+          "matches": "[vid=\"tvSkip\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "更新提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            ".activity.MainActivity",
+            ".activity.SplashActivity",
+            ".common.ConfirmDialogActivity"
+          ],
+          "matches": "LinearLayout > [text=\"取消升级\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "全屏广告-浮窗广告",
+      "desc": "会出现在首页、查询办理页面",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            ".common.ConfirmDialogActivity",
+            ".activity.MainActivity"
+          ],
+          "matches": "[vid=\"rlActivity\"] > [vid=\"close\"]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "全屏广告-弹窗广告",
+      "activityIds": ".common.webview.OnlineBusinessWebkitActivity",
+      "rules": "Image[text=\"tishi-close\"]"
+    },
+    {
+      "key": 5,
+      "name": "权限提示-通知权限",
+      "desc": "自动点击关闭",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "ImageView[vid=\"msg_close\"]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": ".activity.MainActivity",
+          "matches": "[text^=\"开启消息通知\"] - [vid=\"ivClose\"]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "功能类-右下角客服悬浮窗",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".MainActivity",
+          "matches": "[vid=\"close\"]"
+        },
+        {
+          "activityIds": ".activity.MainActivity",
+          "matches": "[vid=\"ivFloatClose\"]"
+        }
+      ]
+    },
+    {
+      "key": 7,
+      "name": "局部广告-悬浮广告",
+      "desc": "点击关闭",
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.MainActivity",
+          "matches": "[vid=\"ivFloatClose\"]"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "功能类-英文版未登录时自动一键登录",
+      "desc": "仅在使用该卡移动数据时可用",
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": ".international.homepage.InternationalHomePageActivity",
+          "matches": "[text=\"Login\"]"
+        },
+        {
+          "key": 1,
+          "preKeys": [
+            0
+          ],
+          "fastQuery": true,
+          "activityIds": ".international.login.InternationalLoginActivity",
+          "matches": "@CheckBox[checked=false] + [text^=\"I agree that I have read and accepted\"]"
+        },
+        {
+          "preKeys": [
+            1
+          ],
+          "fastQuery": true,
+          "activityIds": ".international.login.InternationalLoginActivity",
+          "matches": "[text=\"Login with Current Number\"]"
+        }
+      ]
+    }
+  ]
+}

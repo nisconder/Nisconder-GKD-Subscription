@@ -1,0 +1,93 @@
+{
+  "id": "com.suda.yzune.wakeupschedule",
+  "name": "WakeUp课程表",
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "actionMaximumKey": 0,
+      "resetMatch": "app",
+      "priorityTime": 10000,
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[text*=\"跳过\"][text.length<10][width<500 && height<300][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "matches": "@ImageView[visibleToUser=true][width<156 && height<156] < * < [width>1000] +2 ViewGroup >2 [text=\"广告\"]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "评价提示",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".schedule.ScheduleActivity",
+          "matches": "@[vid=\"ib_close\"][clickable=true] +n [text$=\"五星好评\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "更新提示",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".schedule.ScheduleActivity",
+          "matches": [
+            "[text^=\"新版\"]",
+            "[vid=\"update_close\"][clickable=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "功能类-[询问是否保存编辑]弹窗点击[离开]",
+      "desc": "开启后请使用右上角按钮保存",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".course_add.AddCourseActivity",
+          "matches": [
+            "[text=\"需要保存当前的编辑吗？\"]",
+            "[text=\"离开\"][clickable=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "全屏广告",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".schedule.ScheduleActivity",
+          "matches": "[vid=\"iv_close\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "局部广告-课表底部横幅",
+      "desc": "关闭课表页底部横幅广告。已在6.7.2（562）验证；仅点击可见、可点击的专用关闭按钮。广告再次出现时可再次处理，不限制为每次启动一次。GKD在广告出现后点击关闭，不屏蔽广告加载。",
+      "fastQuery": true,
+      "activityIds": [
+        "com.suda.yzune.wakeupschedule.schedule.ScheduleActivity"
+      ],
+      "rules": [
+        {
+          "action": "clickNode",
+          "matches": "[vid=\"id_ad_close\"][text=\"关闭\"][clickable=true][visibleToUser=true][width>0 && height>0]"
+        }
+      ]
+    }
+  ]
+}

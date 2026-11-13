@@ -1,0 +1,243 @@
+{
+  "id": "com.taobao.idlefish",
+  "name": "闲鱼",
+  "groups": [
+    {
+      "key": 1,
+      "name": "权限提示-通知权限",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostTransparencyActivity",
+          "matches": "@ImageView[clickable=true][desc=null] < [desc^=\"开启系统通知\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "权限提示-手机信息权限",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": ".maincontainer.activity.MainActivity",
+          "matches": [
+            "[text*=\"手机信息权限\"]",
+            "[text=\"取消\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "更新提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "activityIds": ".maincontainer.activity.MainActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[text=\"立即升级\"] -2 [text=\"暂不升级\"]"
+        },
+        {
+          "key": 1,
+          "matches": "@ImageView[text=null][desc=null][clickable=true][width>84 && width<124] - View[height<158] <2 [childCount=3] < RelativeLayout - [vid=\"fish_layer_js_native_window_background_view\"]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "全屏广告",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": ".maincontainer.activity.MainActivity",
+          "matches": "WebView[text=\"Rax App\"] > [id=\"root\"] >(3,6) View[index=parent.childCount.minus(1)][clickable=true]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "activityIds": ".search_implement.SearchResultActivity",
+          "matches": "@[index=parent.childCount.minus(1)][clickable=true][width<250][height<250] <n View <<6 m0 <<6 [vid=\"fish_layer_container_id\"]"
+        },
+        {
+          "key": 2,
+          "fastQuery": true,
+          "activityIds": "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostActivity",
+          "matches": "@[clickable=true][width<200] <<(4,6) View[id=\"root\"] <<(5,8) [vid=\"fish_layer_container_id\"]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "分段广告-信息流广告",
+      "desc": "警告⚠️：已加强目标可见性并阻止反馈菜单出现时重复长按底层广告卡。旧版公开快照回放通过；当前版本的实际广告场景仍待验证。",
+      "fastQuery": true,
+      "forcedTime": 100000,
+      "rules": [
+        {
+          "key": 1,
+          "action": "longClick",
+          "activityIds": ".search_implement.SearchResultActivity",
+          "matches": "@[longClickable=true][visibleToUser=true][width>0 && height>0] >3 [text=\"广告\"][visibleToUser=true]"
+        },
+        {
+          "key": 2,
+          "action": "longClick",
+          "activityIds": [
+            ".maincontainer.activity.MainActivity",
+            ".detail.DetailActivity"
+          ],
+          "matches": "@[longClickable=true][visibleToUser=true][width>0 && height>0][childCount=0][height>width] < [childCount>1] >(1,3,4) [text=\"广告\"][visibleToUser=true]",
+          "excludeMatches": [
+            "[text=\"商品不感兴趣\"][visibleToUser=true]"
+          ],
+          "matchRoot": true
+        },
+        {
+          "key": 3,
+          "action": "longClick",
+          "activityIds": "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostActivity",
+          "matches": "View[desc$=\"广告\"][longClickable=true][visibleToUser=true][width>0 && height>0][childCount>2]"
+        },
+        {
+          "key": 20,
+          "name": "②点击[引起不适]",
+          "preKeys": [
+            1,
+            2,
+            3,
+            20
+          ],
+          "actionCd": 500,
+          "actionDelay": 50,
+          "activityIds": [
+            "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostActivity",
+            "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostTransparencyActivity"
+          ],
+          "matches": "[desc=\"引起不适\"][visibleToUser=true]"
+        },
+        {
+          "key": 21,
+          "name": "②点击[不感兴趣]",
+          "preKeys": [
+            2
+          ],
+          "activityIds": ".maincontainer.activity.MainActivity",
+          "matches": "@[clickable=true][visibleToUser=true][width>0 && height>0] +2 [text=\"商品不感兴趣\"][visibleToUser=true]"
+        },
+        {
+          "key": 50,
+          "preKeys": [
+            20
+          ],
+          "name": "③仅消除preKeys=20蓄势",
+          "action": "none",
+          "actionMaximum": 1,
+          "activityIds": [
+            ".detail.DetailActivity",
+            ".maincontainer.activity.MainActivity",
+            ".search_implement.SearchResultActivity"
+          ],
+          "matches": "[parent=null]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "功能类-自动点击[查看原图]",
+      "rules": [
+        {
+          "activityIds": [
+            "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostTransparencyActivity",
+            "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostActivity"
+          ],
+          "matches": "[desc=\"查看原图\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 7,
+      "name": "功能类-关闭小额免密支付",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.alipay.android.msp.ui.views.MspContainerActivity",
+          "matches": "@CheckBox[clickable=true][checked=true] < * - [text$=\"免密支付\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "功能类-Web登录自动授权",
+      "desc": "登录确认-打勾-确认登录",
+      "fastQuery": true,
+      "activityIds": "com.taobao.login4android.scan.QrScanActivity",
+      "rules": [
+        {
+          "key": 0,
+          "actionMaximum": 1,
+          "resetMatch": "match",
+          "matches": "@[clickable=true] > [vid=\"confirm\"][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "matches": [
+            "[text=\"服务协议及隐私保护\"]",
+            "[text=\"同意\"][clickable=true]"
+          ]
+        },
+        {
+          "key": 2,
+          "matches": [
+            "[text=\"扫码登录\"]",
+            "[text=\"确认登录\"][clickable=true][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 9,
+      "name": "局部广告",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".maincontainer.activity.MainActivity",
+          "matches": "@ImageView[clickable=true][width<100] <(2,5) FrameLayout <<(3,4) [vid=\"fish_layer_container_id\"]"
+        }
+      ]
+    },
+    {
+      "key": 10,
+      "name": "局部广告-悬浮广告",
+      "desc": "商品详情页右侧-x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".detail.DetailActivity",
+          "matches": "Image[width<60 && height<60] < @View <n [childCount=2] < [id=\"root\"] <<2 * <2 WebView <<2 [vid=\"fish_layer_container_id\"]"
+        }
+      ]
+    },
+    {
+      "key": 11,
+      "name": "功能类-自动[勾选]原图",
+      "desc": "选择发送图片时,点击1次[原图]",
+      "rules": [
+        {
+          "actionMaximum": 1,
+          "resetMatch": "match",
+          "activityIds": "com.idlefish.flutterbridge.flutterboost.boost.FishFlutterBoostActivity",
+          "matches": "[clickable=true][desc=\"原图\"]"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,334 @@
+{
+  "id": "com.taobao.taobao",
+  "name": "淘宝",
+  "groups": [
+    {
+      "key": -1,
+      "name": "开屏广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "priorityTime": 10000,
+      "rules": [
+        {
+          "matches": "@[vid*=\"close\"] > [text*=\"跳过\"][text.length<10][width<500 && height<300][visibleToUser=true]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "全屏广告-弹窗广告",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": [
+            "com.taobao.tao.welcome.Welcome",
+            "com.taobao.tao.TBMainActivity",
+            "com.taobao.android.tbabilitykit.pop.StdPopContainerActivity",
+            "com.taobao.android.detail.wrapper.activity.DetailActivity",
+            "com.alibaba.android.ultron.vfw.weex2.highPerformance.widget.UltronTradeHybridActivity",
+            "com.taobao.message.activity.ChatActivity"
+          ],
+          "matches": "@[desc=\"关闭按钮\"] - [vid=\"poplayer_native_state_id\"]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": "com.taobao.tao.welcome.Welcome",
+          "matches": "@ImageView[desc=\"图片\"][childCount=0][clickable=true][visibleToUser=true][width<180&&height<180] <<n [vid=\"poplayer_native_state_id\"]"
+        },
+        {
+          "key": 2,
+          "activityIds": "com.taobao.browser.BrowserActivity",
+          "matches": "WebView[text=\"红包签到\"] > [id=\"ice-container\"] >(3,4) View[childCount=3] > [name$=\"Image\" || name$=\"Button\"][text*=\"jpg\" || text=\"关闭\"][visibleToUser=true]"
+        },
+        {
+          "key": 3,
+          "fastQuery": true,
+          "activityIds": "com.taobao.themis.container.app.TMSActivity",
+          "matches": "[text=\"规则\"] +2 @View[childCount=1][clickable=true] > Image[childCount=0][text!=null] <<n [vid=\"tms_tab_content_view\"]"
+        },
+        {
+          "key": 4,
+          "fastQuery": true,
+          "activityIds": [
+            "com.taobao.search.uniform.SearchActivity",
+            "com.taobao.android.detail.alittdetail.TTDetailActivity",
+            "com.taobao.tao.TBMainActivity"
+          ],
+          "matches": "@[name$=\".TextView\" || name$=\".Image\"][clickable=true][childCount=0][width<150 && height<150][index=parent.childCount.minus(1)] <n View >(1,2,3) [id=null][text$=\"用\" || text$=\"收下\" || text*=\"立减\"] <<n WebView[vid=\"poplayer_inner_view\"]"
+        },
+        {
+          "key": 5,
+          "fastQuery": true,
+          "activityIds": "com.taobao.android.tbabilitykit.pop.StdPopContainerActivity",
+          "matches": "Image[text*=\".jpg\"][width<150 && height<150] < [visibleToUser=true] < @View[clickable=true][childCount=1] <<n FrameLayout[id=null] - [vid=\"layermanager_penetrate_webview_container_id\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "局部广告-横幅广告",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "name": "消息页",
+          "activityIds": [
+            "com.taobao.tao.welcome.Welcome",
+            "com.taobao.tao.TBMainActivity"
+          ],
+          "matches": "[desc.length>0 || text.length>0] + @LinearLayout[clickable=true] + FrameLayout > TextView[text=\"퀺\"]"
+        },
+        {
+          "key": 1,
+          "name": "商品详情页",
+          "activityIds": "com.taobao.android.detail.alittdetail.TTDetailActivity",
+          "matches": "@FrameLayout[desc=\"关闭\"][clickable=true][visibleToUser=true] -3 ImageView <<3 [vid=\"bottom_float_dx\"]"
+        },
+        {
+          "key": 2,
+          "name": "订单页",
+          "activityIds": "com.taobao.android.order.bundle.TBOrderListActivity",
+          "matches": "@TextView[clickable=true][visibleToUser=true][text.length=1] -4 ImageView < LinearLayout[childCount=5] <<3 [vid=\"recycler_view\"]"
+        },
+        {
+          "key": 3,
+          "name": "首页",
+          "matchRoot": true,
+          "activityIds": "com.taobao.tao.welcome.Welcome",
+          "matches": "[desc.length=4] < * + @[clickable=true] > [text=\"뉜\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "局部广告-悬浮广告",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": "com.taobao.browser.BrowserActivity",
+          "matches": "@Image[childCount=0][clickable=true][text!=null] < View <2 View < WebView < o0 <2 WebView < [id=\"android:id/content\"]"
+        },
+        {
+          "key": 1,
+          "activityIds": "com.taobao.themis.container.app.TMSActivity",
+          "matches": "@Image[childCount=0][clickable=true][text!=null] <2 View < View < View <9 View < WebView < m0 <2 WebView < RelativeLayout < [vid=\"tms_tab_content_view\"]"
+        },
+        {
+          "key": 2,
+          "activityIds": "com.taobao.android.detail.alittdetail.TTDetailActivity",
+          "matches": "@FrameLayout[desc=\"关闭\"][clickable=true] <<n [vid=\"ll_dinamicx_container\"]"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "权限提示-通知权限",
+      "desc": "点击关闭",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            "com.taobao.android.tbabilitykit.pop.StdPopContainerActivity",
+            "com.taobao.tao.TBMainActivity",
+            "com.taobao.tao.welcome.Welcome",
+            "com.alibaba.android.ultron.vfw.weex2.highPerformance.widget.UltronTradeHybridActivity"
+          ],
+          "matches": "@Image[childCount=0][visibleToUser=true][text!=null] <n View >(1,2) [visibleToUser=true][text^=\"开启\" || text*=\"消息\"][text*=\"通知\"] <<n [vid=\"poplayer_inner_view\"]"
+        }
+      ]
+    },
+    {
+      "key": 9,
+      "name": "功能类-各级页面添加到首页弹窗",
+      "desc": "点击退出",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            "com.taobao.themis.container.app.TMSActivity",
+            "com.alibaba.triver.container.TriverMainActivity"
+          ],
+          "matches": "TextView[text=\"去首页\"] + TextView[text=\"退出\"]"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "更新提示",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            "com.taobao.android.detail.wrapper.activity.DetailActivity",
+            "com.taobao.android.order.bundle.TBOrderListActivity",
+            "com.taobao.browser.BrowserActivity",
+            "com.taobao.themis.container.app.TMSActivity"
+          ],
+          "matches": "[vid=\"update_imageview_cancel_v2\"]"
+        }
+      ]
+    },
+    {
+      "key": 13,
+      "name": "功能类-关闭小额免密支付",
+      "desc": "在支付前/后出现",
+      "fastQuery": true,
+      "activityIds": "com.alipay.android.msp.ui.views.MspContainerActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "①点击[关闭]或[不感兴趣]",
+          "matches": "[text=\"关闭\" || text=\"不感兴趣\"] < @[clickable=true] <3 * < * + * >3 [text$=\"小额免密支付\"]"
+        },
+        {
+          "key": 1,
+          "name": "②取消勾选",
+          "matches": "@[checked=true] < * - [text=\"开通淘宝小额免密支付\"]"
+        }
+      ]
+    },
+    {
+      "key": 14,
+      "name": "功能类-将小组件添加到手机桌面",
+      "desc": "点击取消",
+      "activityIds": "com.alibaba.triver.container.TriverMainActivity",
+      "rules": [
+        {
+          "action": "clickCenter",
+          "matches": "View[text=\"立即添加\"] + View[text=\"取消\"]"
+        }
+      ]
+    },
+    {
+      "key": 15,
+      "name": "权限提示-悬浮窗权限",
+      "desc": "点击[否]",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            "com.taobao.android.detail2.core.framework.floatwindow.permission.PermissionActivity",
+            "com.taobao.taolive.sdk.permisson.PermissionActivity"
+          ],
+          "matches": [
+            "[text*=\"悬浮窗权限\"]",
+            "[text=\"否\" || text=\"暂不\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 16,
+      "name": "全屏广告-花呗推荐弹窗",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "key": 2,
+          "activityIds": "com.alipay.android.msp.ui.views.MspContainerActivity",
+          "matches": [
+            "[text*=\"花呗升级\" || text*=\"花呗服务\" || text$=\"开通花呗\"][visibleToUser=true]",
+            "@[clickable=true] >n [text=\"暂不升级，继续付款\" || text=\"关闭\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 19,
+      "name": "局部广告-商品详情页直播悬浮窗",
+      "desc": "点击关闭",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "activityIds": "com.taobao.android.detail.wrapper.activity.DetailActivity",
+          "matches": "[vid=\"view_close\"]"
+        }
+      ]
+    },
+    {
+      "key": 20,
+      "name": "功能类-登录授权",
+      "desc": "点击[确认授权]",
+      "rules": [
+        {
+          "activityIds": [
+            "com.taobao.browser.BrowserActivity",
+            "com.taobao.themis.container.app.TMSActivity"
+          ],
+          "matches": "[text=\"确认授权\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 21,
+      "name": "全屏广告-支付后的推荐弹窗",
+      "desc": "点击关闭",
+      "rules": [
+        {
+          "key": 0,
+          "fastQuery": true,
+          "activityIds": "com.alipay.android.msp.ui.views.MspContainerActivity",
+          "matches": "[text=\"关闭\" || text=\"跳过\"] < @[clickable=true] -(1,2) [visibleToUser=true] >(1,2) [text$=\"推荐你\" || text=\"开通指纹支付\"]"
+        },
+        {
+          "key": 1,
+          "name": "充值类商品界面广告",
+          "fastQuery": true,
+          "activityIds": "com.taobao.weex.WXActivity",
+          "matches": "@ImageView[clickable=true][width<150 && height<155] < FrameLayout <2 FrameLayout < FrameLayout < FrameLayout < FrameLayout <2 [vid=\"weex_render_view\"]"
+        }
+      ]
+    },
+    {
+      "key": 22,
+      "name": "功能类-自动隐藏搜索页[猜你想搜][热榜]",
+      "desc": "点击隐藏 ①猜你想搜 ②热榜",
+      "fastQuery": true,
+      "activityIds": "com.taobao.search.uniform.SearchActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "①猜你想搜",
+          "matches": "[vid=\"hideBtn\"][desc=\"隐藏\"][clickable=true]"
+        },
+        {
+          "key": 1,
+          "name": "②热榜",
+          "matches": "@[desc=\"隐藏榜单\"][clickable=true] <n ViewGroup < [vid=\"dynamic_container\"]"
+        }
+      ]
+    },
+    {
+      "key": 23,
+      "name": "功能类-付款前邀开通先用后付",
+      "desc": "点击[不感兴趣]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": "com.alipay.android.msp.ui.views.MspContainerActivity",
+          "matches": [
+            "[text*=\"先用后付服务协议\"]",
+            "@[clickable=true] > [text=\"不感兴趣\"]"
+          ]
+        }
+      ]
+    }
+  ]
+}

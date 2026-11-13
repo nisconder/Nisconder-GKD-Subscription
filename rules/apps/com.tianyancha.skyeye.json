@@ -1,0 +1,49 @@
+{
+  "id": "com.tianyancha.skyeye",
+  "groups": [
+    {
+      "key": 0,
+      "name": "局部广告-首页会员横幅",
+      "desc": "关闭首页会员促销横幅。16.10.21 已实测选择器命中、节点点击成功且横幅关闭按钮消失。",
+      "enable": true,
+      "fastQuery": true,
+      "matchRoot": true,
+      "activityIds": [
+        ".MainActivity"
+      ],
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "action": "clickNode",
+          "matches": "[vid=\"banner_view\"] > @[vid=\"ivBannerClose\"][clickable=true][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 1,
+      "name": "局部广告-首页会员悬浮按钮",
+      "desc": "16.10.21（161021）已实测唯一白色X关闭节点，节点点击成功且按钮消失；结构规则仅限此版本。",
+      "enable": true,
+      "fastQuery": true,
+      "matchRoot": true,
+      "activityIds": [
+        ".MainActivity"
+      ],
+      "versionCodes": [
+        161021
+      ],
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "action": "clickNode",
+          "matches": "[vid=\"ll_main\"] > LinearLayout[id=null][childCount=2] > ImageView[id=null][clickable=true][width>200 && height>200] + @ImageView[id=null][childCount=0][clickable=true][visibleToUser=true][width>0 && width<150 && height>0 && height<150]"
+        }
+      ]
+    }
+  ],
+  "name": "天眼查"
+}

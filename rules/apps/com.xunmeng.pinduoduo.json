@@ -1,0 +1,535 @@
+{
+  "id": "com.xunmeng.pinduoduo",
+  "name": "拼多多",
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "priorityTime": 10000,
+      "rules": [
+        {
+          "fastQuery": true,
+          "excludeActivityIds": ".activity.NewPageActivity",
+          "matches": "[text*=\"跳过\"][text.length<10][width<500 && height<300][visibleToUser=true]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "更新提示",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 1,
+          "activityIds": [
+            ".ui.activity.HomeActivity",
+            ".ui.activity.MainFrameActivity"
+          ],
+          "matches": "@Image[clickable=true] +5 [text=\"立即升级\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "全屏广告-弹窗广告",
+      "rules": [
+        {
+          "key": 3,
+          "fastQuery": true,
+          "action": "back",
+          "activityIds": [
+            ".ui.activity.HomeActivity",
+            ".ui.activity.MainFrameActivity"
+          ],
+          "excludeMatches": "[text=\"我的订单\" || text=\"聊天\"][bottom<650][visibleToUser=true]",
+          "matches": "[text=\"开心收下\" || text=\"去抢购\" || text=\"立即抽免单\" || text=\"去刮奖\" || text=\"立即领取\" || text=\"去领大额金币\" || text=\"送你大额现金\" || text*=\"红包助手\" || text=\"刮刮卡发来的消息通知\" || text=\"立即充值\" || text=\"打款金额\"][top>600][visibleToUser=true]"
+        },
+        {
+          "key": 4,
+          "fastQuery": true,
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "@ViewGroup[clickable=true] - ViewGroup[childCount=3] >2 [text=\"其他\"]"
+        },
+        {
+          "key": 5,
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageMaskActivity",
+          "matches": [
+            "[text=\"继续拼单\"]",
+            "@[clickable=true] > [text=\"先去逛逛\"]"
+          ]
+        },
+        {
+          "key": 7,
+          "activityIds": [
+            ".ui.activity.HomeActivity",
+            ".ui.activity.MainFrameActivity"
+          ],
+          "matches": "ImageView[childCount=0][width<130&&height<130] < ViewGroup[childCount=1] < @ViewGroup[childCount=1][clickable=true][visibleToUser=true] <(1,2) ViewGroup <(1,2) ViewGroup < ViewGroup < FrameLayout < FrameLayout < FrameLayout < FrameLayout < FrameLayout <(1,2,3) [parent=null]"
+        },
+        {
+          "key": 8,
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "@ViewGroup[childCount=1][clickable=true] < ViewGroup[childCount=2] < [childCount=1] < [childCount=1] < [childCount=1] < [childCount=1] < [childCount=1] < [childCount=1] < [childCount=1] <2 FrameLayout <2 [parent=null]"
+        },
+        {
+          "key": 9,
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "@ImageView[index=0][vid=\"pdd\"][childCount=0][visibleToUser=true][width<120&&height<120] < RelativeLayout[childCount=2] < FrameLayout[childCount=1] < FrameLayout[childCount=1] < [parent=null]"
+        },
+        {
+          "key": 10,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[desc=\"关闭按钮\"]",
+          "action": "clickCenter"
+        },
+        {
+          "key": 11,
+          "fastQuery": true,
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "@ViewGroup[width<86 && height<86][clickable=true][focusable=true][clickable=true] + ViewGroup [text=\"元\"]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "局部广告-悬浮广告",
+      "desc": "点击关闭",
+      "activityIds": ".ui.activity.HomeActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": "@TextView[id=null][clickable=true] + Image[id=null][text=\"webp\"]"
+        },
+        {
+          "key": 1,
+          "matches": "[id=\"unactive_watch_video_pendant\"] > TextView[clickable=true][text=\"\"][childCount=0]"
+        },
+        {
+          "key": 2,
+          "matches": "RelativeLayout[childCount=2] > RelativeLayout[vid=\"pdd\"] + @FrameLayout[childCount=1][clickable=true][visibleToUser=true][text=null][vid=\"pdd\"] > ImageView[childCount=0][visibleToUser=true]"
+        },
+        {
+          "key": 3,
+          "name": "多多视频金币提示",
+          "matches": "[text^=\"看5分钟视频\"] -2 Image"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "局部广告-商品详情页视频讲解窗口",
+      "desc": "可点击关闭控件使用节点点击；8.31.0（83100）商品页直播浮窗已验证自动关闭。中心点击分支严格限83100、同一播放器容器内可见的小尺寸专用关闭控件；其他版本及不可访问窗口未验证。",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "anyMatches": [
+            "[vid=\"iv_float_window_close\"][visibleToUser=true][clickable=true][width>0 && height>0]",
+            "@ImageView[desc=\"关闭\"][clickable=true][visibleToUser=true][width>0 && height>0] - * ->n [desc=\"tronplayer_view\"] <<2 [childCount=1] <<2 RelativeLayout[childCount=1] <n * < [id=\"android:id/content\"]"
+          ],
+          "action": "clickNode"
+        },
+        {
+          "key": 100,
+          "name": "8.31.0商品页直播浮窗关闭（非可点击控件）",
+          "fastQuery": true,
+          "matchRoot": true,
+          "activityIds": ".activity.NewPageActivity",
+          "versionCode": {
+            "include": [
+              83100
+            ]
+          },
+          "matches": "@FrameLayout[id=\"com.xunmeng.pinduoduo:id/iv_float_window_close\"][clickable=false][visibleToUser=true][childCount=1][width>0 && width<160 && height>0 && height<160][left>=0 && top>=0][left>=parent.left && top>=parent.top && right<=parent.right && bottom<=parent.bottom] <n FrameLayout[visibleToUser=true][width>0 && width<600 && height>0 && height<1000] > FrameLayout[visibleToUser=true] > FrameLayout[visibleToUser=true] > FrameLayout[desc=\"tronplayer_view\"][visibleToUser=true][width>0 && height>0]",
+          "action": "clickCenter"
+        }
+      ]
+    },
+    {
+      "key": 9,
+      "name": "功能类-多多视频每日自动签到",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "activityIds": ".ui.activity.HomeActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "自动签到",
+          "matches": "@[clickable=true] >2 [text=\"领取今日现金\"][visibleToUser=true]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "key": 1,
+          "name": "在签到后关闭弹窗",
+          "matches": "@[clickable=true] >2 [text=\"明日继续来领\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 10,
+      "name": "全屏广告-多多视频划到广告自动跳过",
+      "desc": "点击返回自动刷新，从而跳过广告",
+      "fastQuery": true,
+      "activityIds": ".ui.activity.HomeActivity",
+      "rules": [
+        {
+          "key": 0,
+          "matches": [
+            "TextView[text=\"正在直播\"]",
+            "@ImageView[desc=\"返回\"] <4 ViewGroup < * < * < [id=\"android:id/content\"]"
+          ]
+        },
+        {
+          "key": 1,
+          "matches": [
+            "TextView[text=\"查看更多低价商品\"]",
+            "@ImageView[desc=\"返回\"] <4 ViewGroup < * < * < [id=\"android:id/content\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 11,
+      "name": "功能类-发送图片时自动勾选原图",
+      "fastQuery": true,
+      "rules": [
+        {
+          "activityIds": ".app_album.album.MultiImageSelectorActivity",
+          "matches": "@[text=\"原图\"][checked=false] + [text=\"发送\"]"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "全屏广告-下单后出现的弹窗",
+      "desc": "点击关闭",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": [
+            ".activity.NewPageMaskActivity",
+            ".ui.activity.HomeActivity"
+          ],
+          "action": "clickCenter",
+          "matches": "@Button[text=\"关闭弹窗\" || desc=\"关闭弹窗\"][clickable=true] <n View[childCount>1] <<(1,2) View[id=\"main\"] <<2 WebView[text=\"拼多多\"] <<3 FrameLayout[vid!=null] <2 ViewGroup <2 FrameLayout <<3 [id=\"android:id/content\"]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "name": "二级全屏推荐",
+          "matchTime": 10000,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "@LinearLayout[clickable=true][width<105 && height<99] + * > [text$=\"下单成功\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 16,
+      "name": "青少年模式",
+      "desc": "点击[我知道了]",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "[text=\"青少年模式\"] < FrameLayout +5 ViewGroup [text=\"我知道了\"]"
+        }
+      ]
+    },
+    {
+      "key": 17,
+      "name": "权限提示-通知权限",
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": "FrameLayout > ViewGroup[vid=\"pdd\"] > ViewGroup > ViewGroup[childCount<3] > ViewGroup[childCount=3 || childCount=2] >(1,2) ImageView[clickable=true][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "fastQuery": true,
+          "action": "back",
+          "activityIds": [
+            ".ui.activity.HomeActivity",
+            ".activity.NewPageActivity",
+            ".ui.activity.MainFrameActivity"
+          ],
+          "matches": "[text=\"及时获取物流消息\" || text=\"开启通知\" || text=\"允许通知\"]"
+        }
+      ]
+    },
+    {
+      "key": 19,
+      "name": "全屏广告-[个性化推荐]弹窗",
+      "desc": "点击[取消]",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": ".ui.activity.HomeActivity",
+          "matches": [
+            "[text=\"个性化推荐未开启\"]",
+            "[text=\"取消\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 20,
+      "name": "其他-登录提现页面点击[跳过]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".login.LoginActivity",
+          "matches": [
+            "[text=\"已获得现金\"]",
+            "[text=\"跳过\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 21,
+      "name": "功能类-关闭截图后的弹窗",
+      "rules": [
+        {
+          "fastQuery": true,
+          "action": "back",
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[text=\"搜索图片同款商品\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 22,
+      "name": "功能类-自动处方流程",
+      "desc": "自动点击处方流程到支付",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "activityIds": ".activity.NewPageActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "点击已确诊的疾病",
+          "actionMaximum": 1,
+          "matches": "@TextView[index=0] <<2 View - [text=\"选择已确诊的疾病\"] <n [id=\"main\"] < WebView[text!=null] <<3 FrameLayout <2 ViewGroup -2 FrameLayout >3 [text=\"购买处方药需填写用药信息\"]"
+        },
+        {
+          "key": 1,
+          "name": "点击提交并开药",
+          "preKeys": [
+            0
+          ],
+          "actionCd": 800,
+          "matches": "@Button[text=\"提交并开药\"][clickable=true][visibleToUser=true] <n [id=\"main\"] < WebView[text!=null] <<3 FrameLayout <2 ViewGroup -2 FrameLayout >3 [text=\"购买处方药需填写用药信息\"]",
+          "action": "clickCenter"
+        },
+        {
+          "key": 2,
+          "name": "点击无需补充，立即开方",
+          "preKeys": [
+            1
+          ],
+          "matchDelay": 2600,
+          "matches": "@[clickable=true] >2 [text=\"无需补充，立即开方\"][visibleToUser=true]"
+        },
+        {
+          "name": "点击立即支付",
+          "preKeys": [
+            2
+          ],
+          "matchDelay": 3000,
+          "matches": "@[clickable=true] >2 [text=\"立即支付\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 23,
+      "name": "功能类-展开更多",
+      "desc": "自动展开更多信息",
+      "activityIds": ".activity.NewPageActivity",
+      "rules": [
+        {
+          "key": 0,
+          "name": "通用[展开]_fastQ",
+          "fastQuery": true,
+          "action": "clickCenter",
+          "matches": "[text=\"展开\"][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "name": "[查看更多订单信息]",
+          "matches": "Button[text=\"查看更多订单信息\"]",
+          "action": "clickCenter"
+        },
+        {
+          "key": 2,
+          "name": "订单页",
+          "action": "clickCenter",
+          "matches": "@[text=\"展开\"] <<3 View <n [id=\"main\"] <<2 WebView[text!=null] <<3 FrameLayout <2 ViewGroup -2 FrameLayout >3 [text=\"交易成功\"]"
+        },
+        {
+          "key": 3,
+          "name": "商品评论",
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "@[desc=\"展开\"][clickable=true] - FrameLayout > ViewGroup[vid=\"pdd\"][childCount>5] >2 [text^=\"全部(\"]"
+        }
+      ]
+    },
+    {
+      "key": 24,
+      "name": "功能类-仅看此规格评价",
+      "desc": "快速点击[仅看当前商品规格的评价]",
+      "actionCd": 5000,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[text^=\"发表时间\"] +2 [text=\"仅看当前规格的评价\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 25,
+      "name": "功能类-视频评论进入自动静音",
+      "desc": "评论=>视频=>点击[静音]按钮",
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageMaskActivity",
+          "matches": "[desc=\"静音\"][visibleToUser=true] < @[vid=\"pdd\"][clickable=true] + [text^=\"@\"]"
+        }
+      ]
+    },
+    {
+      "key": 26,
+      "name": "功能类-商品页视频自动静音",
+      "desc": "商品详情=>点击播放视频=>点击[静音]",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "key": 0,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "@[desc=\"静音\"][clickable=true] <2 [childCount=3] < FrameLayout <2 ViewPager + [text^=\"1/\"][visibleToUser=true]"
+        },
+        {
+          "key": 1,
+          "activityIds": ".goods.gallery.GoodsDetailGalleryActivity",
+          "matches": "LinearLayout[childCount=4] > @ImageView[clickable=true][width<66 && height<66][index=0] +2 SeekBar + [text^=\"00:\"]"
+        }
+      ]
+    },
+    {
+      "key": 27,
+      "name": "功能类-隐藏[搜索发现]",
+      "desc": "自动隐藏搜索页中[搜索发现]",
+      "actionMaximum": 1,
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "@[desc=\"隐藏搜索发现\"][clickable=true] - [text=\"搜索发现\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 28,
+      "name": "其他-跳过登录后绑定手机号",
+      "desc": "登陆成功 ->请绑定手机号 ->跳过",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[text=\"登录成功，请绑定手机号\"] <<2 * <2 * -> @[text=\"跳过\"] <<2 [id=\"bindingPage\"] < [id=\"main\"] <<4 [vid=\"pdd\"] <2 ViewGroup <<2 [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 29,
+      "name": "权限提示-相机权限",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".permission.scene_manager.ScenePermissionRequestActivity",
+          "matches": "[text$=\"允许拼多多访问你的相机\"][visibleToUser=true] < LinearLayout +2 LinearLayout > [text=\"取消\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 30,
+      "name": "其他-退出评价跳过二次确认",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[text^=\"此次评价未完成\"][visibleToUser=true] < [childCount=1] +2 LinearLayout[childCount=3] > [text=\"退出\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 31,
+      "name": "功能类-下单后一键取消收藏",
+      "desc": "一键取消收藏购刚买的商品",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".activity.NewPageMaskActivity",
+          "matches": "@[text=\"一键取消收藏以上商品\"][visibleToUser=true] < View[childCount=2] - View[childCount=5] <<(1,2) View[id=\"main\"] <<2 WebView[text=\"拼多多\"] <<3 FrameLayout[vid!=null] <2 ViewGroup <2 FrameLayout <<3 [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 32,
+      "name": "功能类-百亿补贴自动[打卡]",
+      "desc": "点击[打卡]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": ".activity.NewPageActivity",
+          "matches": [
+            "[vid=\"tv_title\"][text=\"百亿补贴会员\"]",
+            "[id=null][text=\"打卡\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 33,
+      "name": "功能类-自动加入抽福袋",
+      "desc": "点击[立即加入抽福袋]",
+      "rules": [
+        {
+          "activityIds": ".activity.NewPageActivity",
+          "matches": "[id=null][text=\"立即加入抽福袋\"][visibleToUser=true]"
+        }
+      ]
+    }
+  ]
+}

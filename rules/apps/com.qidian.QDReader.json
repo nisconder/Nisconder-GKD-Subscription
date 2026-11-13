@@ -1,0 +1,349 @@
+{
+  "id": "com.qidian.QDReader",
+  "name": "起点读书",
+  "groups": [
+    {
+      "key": 0,
+      "name": "开屏广告",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "actionMaximumKey": 0,
+      "resetMatch": "app",
+      "priorityTime": 10000,
+      "rules": [
+        {
+          "key": 0,
+          "matches": "[vid=\"splash_skip_button\"][clickable=true]"
+        },
+        {
+          "key": 1,
+          "matches": "[text*=\"跳过\"][text.length<10][clickable=true][width<500 && height<300]"
+        }
+      ],
+      "order": -10
+    },
+    {
+      "key": 1,
+      "name": "更新提示",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 1,
+          "activityIds": ".framework.widget.dialog.judian",
+          "matches": "[text$=\"新版本\"] +2 * >2 [vid=\"cancel\"]"
+        },
+        {
+          "key": 2,
+          "activityIds": "com.tencent.upgrade.ui.UpgradeDialogActivity",
+          "matches": "[vid=\"upgrade_dialog_close_btn\"]"
+        }
+      ]
+    },
+    {
+      "key": 2,
+      "name": "青少年模式",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "activityIds": [
+            ".bll.helper.z0",
+            ".ui.activity.MainGroupActivity",
+            ".framework.widget.dialog.judian"
+          ],
+          "matches": "[vid=\"btnEnterTeen\"] + [vid=\"btnCancel\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "全屏广告-弹窗广告",
+      "desc": "点击x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".ui.activity.MainGroupActivity",
+            ".framework.widget.dialog.judian",
+            ".ui.activity.BookLastPageNewActivity",
+            "com.tencent.mm.plugin.webview.ui.tools.SDKOAuthUI"
+          ],
+          "matches": "[vid=\"imgClose\" || vid=\"btnClose\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "权限提示-通知权限",
+      "desc": "x掉",
+      "fastQuery": true,
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "key": 1,
+          "activityIds": "com.afollestad.materialdialogs.MaterialDialog",
+          "matches": "@[vid=\"ivClose\"] + [text^=\"开启推送\"]"
+        },
+        {
+          "key": 2,
+          "activityIds": ".ui.activity.MainGroupActivity",
+          "matches": "ImageView < [vid=\"ivUpdateNoticeClose\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "局部广告-悬浮广告",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".ui.activity.QDBookDetailActivity",
+            ".ui.activity.MainGroupActivity"
+          ],
+          "matches": "[vid=\"ivAdClose\"][clickable=true]"
+        }
+      ]
+    },
+    {
+      "key": 6,
+      "name": "评价提示",
+      "desc": "点击x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.activity.CircleHomePageActivity",
+          "matches": "@[vid=\"fClose\"] - [visibleToUser=true] > [text*=\"给个好评\"]"
+        }
+      ]
+    },
+    {
+      "key": 7,
+      "name": "功能类-自动[展开]书籍简介",
+      "desc": "书单列表页/书籍详情页",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 1,
+          "actionCd": 500,
+          "activityIds": [
+            ".ui.activity.RecomBookListDetailActivity",
+            ".ui.activity.QDBookDetailActivity"
+          ],
+          "matches": "[vid=\"etvBookRecomWord\" || vid=\"tvIntro\"][text$=\"...展开\"][clickable=true]"
+        },
+        {
+          "key": 2,
+          "actionCd": 2000,
+          "forcedTime": 5000,
+          "activityIds": ".flutter.QDBookDetailFlutterActivity",
+          "matches": "@ImageView[clickable=true] < View[desc.length>30] <n ScrollView < View < View < View < View < View < FrameLayout < [id=\"android:id/content\"]"
+        }
+      ]
+    },
+    {
+      "key": 8,
+      "name": "功能类-自动[收起]书架上方推广",
+      "desc": "点击1次[收起]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": ".ui.activity.MainGroupActivity",
+          "matches": "@[vid=\"operationItemCloseIcon\"] - [text=\"收起\"]"
+        }
+      ]
+    },
+    {
+      "key": 10,
+      "name": "功能类-扫描自动确认[登录]",
+      "desc": "点击[登录]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.activity.QDBrowserActivity",
+          "matches": "@[id=\"scanLogin\"] <<(7,9) [vid=\"webViewContainer\"]"
+        }
+      ]
+    },
+    {
+      "key": 11,
+      "name": "局部广告-信息流广告",
+      "desc": "每日导读页-游戏广告",
+      "rules": [
+        {
+          "activityIds": ".flutter.DailyReadingMainPageActivity",
+          "matches": "@ImageView[clickable=true] < [desc^=\"游戏广告\"]"
+        }
+      ]
+    },
+    {
+      "key": 12,
+      "name": "功能类-福利中心看完广告-知道了",
+      "desc": "点击[知道了]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.activity.QDBrowserActivity",
+          "matches": "@TextView[text$=\"知道了\"][visibleToUser=true] < [index=parent.childCount.minus(1)] <n View < View - [id=\"app\"] <<4 [vid=\"webViewContainer\"]"
+        }
+      ]
+    },
+    {
+      "key": 13,
+      "name": "全屏广告-红包弹窗",
+      "desc": "点击x掉",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".ui.activity.hongbao_square.NewHongBaoSquareActivity",
+            ".ui.activity.MainGroupActivity",
+            ".flutter.HongBaoSquareActivity"
+          ],
+          "matches": "[vid=\"rootView\"] > [vid=\"btnHongbaoClose\"]"
+        }
+      ]
+    },
+    {
+      "key": 14,
+      "name": "功能类-移动网络下自动点击播放视频",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".ui.activity.QDBrowserActivity",
+          "matches": [
+            "[text^=\"当前处于移动网络\"]",
+            "@[clickable=true] >2 [text=\"播放\"]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 15,
+      "name": "功能类-自动签到",
+      "desc": "①点击[签到] ②退出福利中心",
+      "fastQuery": true,
+      "rules": [
+        {
+          "key": 0,
+          "name": "①点击[签到]",
+          "activityIds": ".ui.activity.MainGroupActivity",
+          "excludeMatches": "[vid=\"tvTipNum\"][text=\"--\"][visibleToUser=true]",
+          "matches": "@[vid=\"btnCheckIn\"] >2 [text=\"签到\"][visibleToUser=true]"
+        },
+        {
+          "preKeys": [
+            0
+          ],
+          "name": "②退出福利中心",
+          "activityIds": ".ui.activity.QDBrowserActivity",
+          "matches": "@View[id=null][childCount=0][clickable=true] < View < View < WebView[text=\"福利中心\"] < WebView < FrameLayout < [vid=\"webViewContainer\"]"
+        }
+      ]
+    },
+    {
+      "key": 16,
+      "name": "功能类-订阅后续章节后自动[返回]",
+      "desc": "返回小说正文页 (对于自定义订阅不可用)",
+      "fastQuery": true,
+      "activityIds": [
+        ".ui.activity.QDDirectoryActivity",
+        ".ui.activity.SplashActivity",
+        ".ui.activity.QDReaderActivity"
+      ],
+      "rules": [
+        {
+          "key": 10,
+          "name": "①未订最新章-待后续",
+          "action": "none",
+          "actionMaximum": 1,
+          "matches": "[text^=\"订阅后续付费章\"]"
+        },
+        {
+          "key": 11,
+          "name": "①未订后续章",
+          "action": "none",
+          "forcedTime": 5000,
+          "actionMaximum": 1,
+          "activityIds": ".flutter.BatchOrderDialogActivity",
+          "matches": "@[desc^=\"订阅后续付费章\"] <2 View < View < View < View < FrameLayout < [id=\"android:id/content\"]"
+        },
+        {
+          "key": 20,
+          "preKeys": [
+            10
+          ],
+          "name": "②已订最新章-返回键",
+          "action": "back",
+          "matches": "[text=\"已订阅至最新章节\"]"
+        },
+        {
+          "key": 21,
+          "preKeys": [
+            11
+          ],
+          "name": "②提示已订阅n章",
+          "action": "none",
+          "forcedTime": 10000,
+          "activityIds": ".flutter.BatchOrderDialogActivity",
+          "matches": "@ImageView[desc^=\"已订阅\"] <2 View < View < View < View < FrameLayout < [id=\"android:id/content\"]"
+        },
+        {
+          "key": 30,
+          "preKeys": [
+            20,
+            21
+          ],
+          "name": "③退出目录",
+          "forcedTime": 10000,
+          "matches": "@[vid=\"btnBack\"][clickable=true] + * >6 [vid=\"layoutTitle\"][text=\"目录\"]"
+        }
+      ]
+    },
+    {
+      "key": 17,
+      "name": "功能类-书友圈自动[打卡]",
+      "rules": [
+        {
+          "fastQuery": true,
+          "actionDelay": 300,
+          "forcedTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "match",
+          "activityIds": ".ui.activity.CircleHomePageActivity",
+          "matches": "[text=\"打卡\"] < [vid=\"layoutTopButton\"]"
+        }
+      ]
+    },
+    {
+      "key": 18,
+      "name": "全屏广告-追更至最新章节弹窗",
+      "desc": "①[取消勾选]提醒 ②x掉弹窗",
+      "fastQuery": true,
+      "actionMaximum": 1,
+      "activityIds": ".ui.activity.QDReaderActivity",
+      "rules": [
+        {
+          "key": 1,
+          "name": "①[取消勾选]提醒",
+          "matches": "[vid=\"switchUpdate\"][checkable=true][checked=true]"
+        },
+        {
+          "key": 2,
+          "name": "②x掉弹窗",
+          "matches": "@[vid=\"ivClose\"] +2 [visibleToUser=true] >2 [text=\"追更至最新章节\"]"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "id": 20261113,
+  "name": "Nisconder的GKD订阅",
+  "version": 7,
+  "counts": {
+    "apps": 78,
+    "appGroups": 480,
+    "appRules": 785,
+    "globalGroups": 3,
+    "globalRules": 4,
+    "globalAllowedApps": {
+      "0": 45,
+      "1": 46,
+      "2": 34
+    },
+    "groupsTotal": 483,
+    "rulesTotal": 789,
+    "globalScopeEntries": 125,
+    "globalScopeAppsUnion": 47
+  },
+  "files": {
+    "gkd.json5": {
+      "sha256": "08e55ee12c5f86346e174bef3f64e6c023e4b012412fbbb35cc15cbf57a4a8c4",
+      "bytes": 354836
+    },
+    "gkd.version.json5": {
+      "sha256": "ab3da62ade61a1b215902a9f0b891a4fa87d55bb63aa0143750513fe0df59154",
+      "bytes": 37
+    }
+  }
+}

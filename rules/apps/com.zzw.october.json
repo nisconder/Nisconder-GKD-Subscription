@@ -1,0 +1,91 @@
+{
+  "id": "com.zzw.october",
+  "name": "志愿汇",
+  "groups": [
+    {
+      "key": 2,
+      "name": "全屏广告-弹窗广告",
+      "rules": [
+        {
+          "key": 1,
+          "fastQuery": true,
+          "matchTime": 10000,
+          "actionMaximum": 1,
+          "resetMatch": "app",
+          "activityIds": ".MainActivity",
+          "matches": "[vid=\"interact_ad_root\"] >n ImageView[vid=\"iv_close\"]"
+        },
+        {
+          "key": 2,
+          "fastQuery": true,
+          "activityIds": ".MainActivity",
+          "matches": "[vid=\"ad_close\"][visibleToUser=true]"
+        },
+        {
+          "key": 3,
+          "fastQuery": true,
+          "activityIds": "com.beizi.ad.v2.activity.BeiZiNewInterstitialActivity",
+          "matches": "[vid=\"beizi_interstitial_ad_close_iv\"]"
+        },
+        {
+          "key": 4,
+          "fastQuery": true,
+          "activityIds": "com.beizi.ad.AdActivity",
+          "matches": "[vid=\"close_iv\"]"
+        },
+        {
+          "key": 5,
+          "fastQuery": true,
+          "activityIds": "com.octopus.ad.AdActivity",
+          "matches": "@ImageView[clickable=true][width<90 && height<90] - [text=\"反馈\"]"
+        }
+      ]
+    },
+    {
+      "key": 3,
+      "name": "更新提示",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": [
+            ".MainActivity",
+            ".LaunchActivity"
+          ],
+          "anyMatches": [
+            "[vid=\"dialog_de\"][visibleToUser=true]",
+            "[text=\"以后再说\"][visibleToUser=true]"
+          ]
+        }
+      ]
+    },
+    {
+      "key": 4,
+      "name": "通知提示-志愿者保险提示弹窗",
+      "desc": "点击[暂不领取]",
+      "matchTime": 10000,
+      "actionMaximum": 1,
+      "resetMatch": "app",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".MainActivity",
+          "matches": "[text=\"暂不领取\"][visibleToUser=true]"
+        }
+      ]
+    },
+    {
+      "key": 5,
+      "name": "局部广告-浮标广告",
+      "rules": [
+        {
+          "fastQuery": true,
+          "activityIds": ".MainActivity",
+          "matches": "[vid=\"channel_banner_close_iv\"]"
+        }
+      ]
+    }
+  ]
+}
